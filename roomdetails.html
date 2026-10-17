@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <script>
+        if (localStorage.getItem("helpHiveDarkMode") === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="4.png">
+    <title>Property Details - HelpHive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-poppins bg-[#fffaf0] dark:bg-slate-900 text-slate-800 dark:text-slate-100 antialiased transition-colors duration-300">
+    <div id="top"></div>
+    <!-- TOP NAVIGATION BAR -->
+    <header
+        class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-xs transition-colors">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+            <div class="flex items-center gap-2 cursor-pointer"
+                onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                <div class="text-2xl font-bold text-[#d89a00] flex items-center gap-2">
+                    <img src="4.png" alt="HelpHive Logo" class="w-10 h-10 object-contain">
+                    <span
+                        class="text-slate-900 dark:text-white font-extrabold tracking-tight text-xl sm:text-2xl">HelpHive</span>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-slate-600 dark:text-slate-300">
+                <a href="dashowner.html" class="text-[#d89a00] font-semibold border-b-2 border-[#d89a00] pb-1">Home</a>
+                <a href="myproperty.html" class="hover:text-[#d89a00] transition-colors">My Properties</a>
+                <a href="addproperty.html" class="hover:text-[#d89a00] transition-colors">Add Property</a>
+            </nav>
+
+            <div class="relative flex items-center gap-3">
+                <button onclick="toggleDarkMode()" id="darkModeBtn"
+                    class="w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer"
+                    title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                    <i class="fa-solid fa-sun text-lg hidden dark:block text-amber-400"></i>
+                </button>
+
+                <button onclick="toggleNotifications()"
+                    class="relative w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span
+                        class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                </button>
+                <div id="notificationDropdown"
+                    class="hidden absolute right-0 top-14 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
+                    <div class="p-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-900 dark:text-white">
+                                Notifications
+                            </h3>
+                            <span class="text-xs font-medium text-[#d89a00]">
+                                0 new
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <div class="text-4xl mb-3">🐝</div>
+                        <h4 class="font-semibold text-slate-800 dark:text-white mb-1">
+                            Your hive is quiet!
+                        </h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                            No new notifications yet. We're still getting the hive ready!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative pl-3 border-l border-slate-200 dark:border-slate-800">
+                    <button onclick="toggleProfileDropdown()"
+                        class="flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer shadow-xs">
+                        <i class="fa-regular fa-user text-base"></i>
+                        <span>Sign in</span>
+                    </button>
+
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-3 w-52 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl py-2 z-50 text-sm text-slate-200">
+                        <a href="login.html"
+                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-google text-red-500 w-5 text-base"></i> Google
+                        </a>
+                        <a href="login.html"
+                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-facebook text-blue-500 w-5 text-base"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN PROPERTY DETAILS CONTAINER -->
+    <main class="max-w-7xl mx-auto px-6 py-8 space-y-8">
+
+        <!-- Breadcrumbs & Header Info -->
+        <div>
+            <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">
+                <a href="dashboard.html" class="hover:underline">Home</a>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                <a href="findroom.html" class="hover:underline">Dorms for Rent</a>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                <span id="breadcrumbLocation" class="text-[#d89a00] font-semibold">Borongan Student Loft</span>
+            </div>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h1 id="propertyTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Borongan Student Loft</h1>
+                        <span id="propertyStatusBadge" class="bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400 text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check"></i> Verified
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
+                        <span id="propertyIdCode" class="font-bold text-slate-700 dark:text-slate-300">HH-BOR001</span>
+                        <span><i class="fa-regular fa-clock"></i> Updated just now</span>
+                    </p>
+                </div>
+                <div id="propertyPriceHeader" class="text-3xl font-black text-[#d89a00]">
+                    ₱3,500 <span class="text-xs font-medium text-slate-400 uppercase tracking-wide">/ Monthly</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spec Badges Bar -->
+        <div class="bg-slate-900 text-white rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-4 shadow-lg border border-slate-800">
+            <div class="flex items-center gap-3 px-3 py-2 border-r border-slate-800">
+                <i class="fa-solid fa-location-dot text-[#d89a00] text-xl"></i>
+                <div>
+                    <p class="text-[10px] uppercase font-semibold text-slate-400">Location</p>
+                    <p id="specLocation" class="text-xs font-bold truncate">City Center, Borongan</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 px-3 py-2 sm:border-r border-slate-800">
+                <i class="fa-solid fa-bed text-[#d89a00] text-xl"></i>
+                <div>
+                    <p class="text-[10px] uppercase font-semibold text-slate-400">Room Type</p>
+                    <p id="specRoom" class="text-xs font-bold">Bunk Bed / Shared</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 px-3 py-2 border-r border-slate-800">
+                <i class="fa-solid fa-bath text-[#d89a00] text-xl"></i>
+                <div>
+                    <p class="text-[10px] uppercase font-semibold text-slate-400">Bathrooms</p>
+                    <p id="specBath" class="text-xs font-bold">1 Bathroom</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 px-3 py-2">
+                <i class="fa-solid fa-ruler-combined text-[#d89a00] text-xl"></i>
+                <div>
+                    <p class="text-[10px] uppercase font-semibold text-slate-400">Floor Size</p>
+                    <p id="specArea" class="text-xs font-bold">22 sqm</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- LEFT COLUMN: Image Gallery & Description -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Image Showcase Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="md:col-span-2 h-[380px] rounded-3xl overflow-hidden bg-slate-900 shadow-md">
+                        <img id="mainImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnRnIUfp9yF1zsn3DtXFTMJ8c4imYn-QY14oI-aR4Sqg&s=10" alt="Main Room Image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="h-48 rounded-2xl overflow-hidden bg-slate-900 shadow-xs cursor-pointer">
+                        <img id="subImage1" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3nyBSwOT5jEJNNdsd-RDii_rg2FwCIRJQEtcPON4pyA&s=10" alt="Room Angle 2" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="h-48 rounded-2xl overflow-hidden bg-slate-900 shadow-xs cursor-pointer">
+                        <img id="subImage2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_iIH5ehB9lDWV-6iI8pFXBveCT9KdxuvZ3JwuED51KQ&s=10" alt="Room Angle 3" class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                    </div>
+                </div>
+
+                <!-- Description Box -->
+                <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-xs space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-bars-staggered text-[#d89a00]"></i> Description
+                    </h3>
+                    <div id="propertyDescriptionContent" class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed space-y-2">
+                        <p class="font-semibold text-slate-900 dark:text-white">STUDENT LOFT / DORMITORY FOR RENT</p>
+                        <p>📍 Near City Center, Borongan City (Walking distance to schools and convenience stores)</p>
+                        <p>💰 ₱3,500 / month (Inclusive of water and free high-speed Wi-Fi connection)</p>
+                        <p>✨ Features & Amenities:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Bunk bed frame with mattress included</li>
+                            <li>Individual study desk and chair</li>
+                            <li>Clean common bathrooms with shower fixtures</li>
+                            <li>Secure perimeter fence with gate lock</li>
+                            <li>Free Wi-Fi access for all tenants</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Landlord Card & Property Inquiry Form -->
+            <div class="space-y-6">
+                <!-- Listed By Card -->
+                <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-xl border border-slate-800">
+                    <div class="flex items-center gap-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Landlord" class="w-14 h-14 rounded-full object-cover ring-2 ring-[#d89a00]">
+                        <div>
+                            <p class="text-[10px] uppercase font-semibold text-slate-400">Listed By</p>
+                            <h4 id="landlordName" class="font-bold text-base flex items-center gap-1.5">
+                                Maria Santos <i class="fa-solid fa-circle-check text-blue-400 text-xs"></i>
+                            </h4>
+                            <p class="text-[11px] text-[#d89a00] font-semibold">VERIFIED PROPERTY OWNER</p>
+                        </div>
+                    </div>
+                    <button onclick="alert('Redirecting to landlord listings...')" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-2 border border-slate-700 cursor-pointer">
+                        VIEW LISTINGS <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Property Inquiry Form -->
+                <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-xl border border-slate-800 space-y-4">
+                    <div class="border-b border-slate-800 pb-3">
+                        <p class="text-[11px] font-bold text-[#d89a00] uppercase tracking-wider">Get in Touch</p>
+                        <h3 class="text-xl font-extrabold text-white">Property Inquiry</h3>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); alert('Inquiry sent successfully to the landlord!');" class="space-y-4 text-sm">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">First Name</label>
+                                <input type="text" required value="Juan" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#d89a00]">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">Last Name</label>
+                                <input type="text" required value="Dela Cruz" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#d89a00]">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">Phone</label>
+                            <div class="flex gap-2">
+                                <select class="bg-slate-800 border border-slate-700 rounded-xl px-2 py-2.5 text-white text-xs outline-none">
+                                    <option>PH +63</option>
+                                </select>
+                                <input type="tel" required placeholder="9XX XXX XXXX" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#d89a00]">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">Email</label>
+                            <input type="email" required value="juan@email.com" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#d89a00]">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">Message</label>
+                            <textarea id="inquiryMessage" rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-xs outline-none focus:border-[#d89a00]">I'm interested in this property. Please contact me.</textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-[#d89a00] hover:bg-[#b98200] text-white font-bold py-3 rounded-xl transition shadow-md cursor-pointer">
+                            Send Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem("helpHiveDarkMode", "dark");
+            } else {
+                localStorage.setItem("helpHiveDarkMode", "light");
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const propertyIndex = urlParams.get('index');
+            const propertyId = urlParams.get('id');
+
+            let savedProperties = JSON.parse(localStorage.getItem("helpHiveProperties")) 
+                               || JSON.parse(localStorage.getItem("properties")) 
+                               || JSON.parse(localStorage.getItem("listings")) 
+                               || [];
+
+            let property = null;
+
+            if (propertyIndex !== null && savedProperties[propertyIndex]) {
+                property = savedProperties[propertyIndex];
+            } else if (propertyId) {
+                property = savedProperties.find(p => p.id == propertyId);
+            }
+
+            if (property) {
+                // Title and Breadcrumbs
+                const titleText = property.title || property.name || "Property Details";
+                document.getElementById("propertyTitle").textContent = titleText;
+                const breadcrumb = document.getElementById("breadcrumbLocation");
+                if (breadcrumb) breadcrumb.textContent = titleText;
+                
+                // Price
+                if (property.price) {
+                    const priceFormatted = Number(property.price).toLocaleString();
+                    const priceEl = document.getElementById("propertyPriceHeader");
+                    if (priceEl) {
+                        priceEl.innerHTML = `₱${priceFormatted} <span class="text-xs font-medium text-slate-400 uppercase tracking-wide">/ Monthly</span>`;
+                    }
+                }
+
+                // Specs
+                if (property.location) document.getElementById("specLocation").textContent = property.location;
+                if (property.room) document.getElementById("specRoom").textContent = property.room;
+                if (property.bath) document.getElementById("specBath").textContent = property.bath;
+                if (property.area) document.getElementById("specArea").textContent = property.area + " sqm";
+
+                // Images (Supports single image or multi-image arrays from uploads)
+                const mainImg = document.getElementById("mainImage");
+                const subImg1 = document.getElementById("subImage1");
+                const subImg2 = document.getElementById("subImage2");
+
+                const img1 = property.image || (property.images && property.images[0]);
+                const img2 = property.image2 || (property.images && property.images[1]);
+                const img3 = property.image3 || (property.images && property.images[2]);
+
+                if (img1 && mainImg) mainImg.src = img1;
+                if (img2 && subImg1) subImg1.src = img2;
+                if (img3 && subImg2) subImg2.src = img3;
+
+                // Owner Info
+                if (property.owner) {
+                    document.getElementById("landlordName").innerHTML = `${property.owner} <i class="fa-solid fa-circle-check text-blue-400 text-xs"></i>`;
+                }
+
+                // Inquiry message update
+                const msgBox = document.getElementById("inquiryMessage");
+                if (msgBox) {
+                    msgBox.value = `I'm interested in ${titleText}. Please contact me.`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <script>
+        if (localStorage.getItem("helpHiveDarkMode") === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="4.png">
+    <title>HelpHive - Find Verified Apartments, Condos & Student Rooms for Rent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body
+    class="font-poppins bg-[#fffaf0] dark:bg-slate-900 text-slate-800 dark:text-slate-100 antialiased transition-colors duration-300">
+    <div id="top"></div>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header
+        class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-xs transition-colors">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+            <div class="flex items-center gap-2 cursor-pointer"
+                onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                <div class="text-2xl font-bold text-[#d89a00] flex items-center gap-2">
+                    <img src="4.png" alt="HelpHive Logo" class="w-10 h-10 object-contain">
+                    <span
+                        class="text-slate-900 dark:text-white font-extrabold tracking-tight text-xl sm:text-2xl">HelpHive</span>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-slate-600 dark:text-slate-300">
+                <a href="dashowner.html"class="hover:text-[#d89a00] transition-colors">Home</a>
+                <a href="myproperty.html"class="text-[#d89a00] font-semibold border-b-2 border-[#d89a00] pb-1">My Properties</a>
+                <a href="addproperty.html"class="hover:text-[#d89a00] transition-colors">Add Property</a>
+            </nav>
+
+            <div class="relative flex items-center gap-3">
+                <button onclick="toggleDarkMode()" id="darkModeBtn"
+                    class="w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer"
+                    title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                    <i class="fa-solid fa-sun text-lg hidden dark:block text-amber-400"></i>
+                </button>
+
+                <button onclick="toggleNotifications()"
+                    class="relative w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span
+                        class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                </button>
+                <div id="notificationDropdown"
+                    class="hidden absolute right-0 top-14 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
+                    <div class="p-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-900 dark:text-white">
+                                Notifications
+                            </h3>
+                            <span class="text-xs font-medium text-[#d89a00]">
+                                0 new
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <div class="text-4xl mb-3">🐝</div>
+                        <h4 class="font-semibold text-slate-800 dark:text-white mb-1">
+                            Your hive is quiet!
+                        </h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                            No new notifications yet. We're still getting the hive ready!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative pl-3 border-l border-slate-200 dark:border-slate-800">
+                    <button onclick="toggleProfileDropdown()"
+                        class="flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer shadow-xs">
+                        <i class="fa-regular fa-user text-base"></i>
+                        <span>Sign in</span>
+                    </button>
+
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-3 w-52 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl py-2 z-50 text-sm text-slate-200">
+                        <a href="login.html"
+                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-google text-red-500 w-5 text-base"></i> Google
+                        </a>
+                        <a href="login.html"
+                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-facebook text-blue-500 w-5 text-base"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </header>
+    <!-- Hero Slider Section -->
+    <section class="relative w-full h-[420px] overflow-hidden bg-slate-900">
+
+        <div class="hero-slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+            <img src="dorm1.jpg" alt="Student accommodation" class="w-full h-full object-cover opacity-75">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col items-center justify-center text-center text-white px-4">
+                <span
+                    class="bg-[#d89a00] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3">Borongan's
+                    Exclusive Student Rental Portal</span>
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">WELCOME TO HELPHIVE</h2>
+                <p class="mt-3 text-base sm:text-lg font-medium text-slate-200">Comfortable, affordable, verified rooms
+                    near your school.</p>
+            </div>
+        </div>
+
+        <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+            <img src="dorm2.jpg" alt="Modern boarding house" class="w-full h-full object-cover opacity-75">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col items-center justify-center text-center text-white px-4">
+                <span
+                    class="bg-[#d89a00] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3">Trusted
+                    Landlords</span>
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">A PLACE TO CALL HOME</h2>
+                <p class="mt-3 text-base sm:text-lg font-medium text-slate-200">Find a comfortable place to stay in
+                    Borongan City.</p>
+            </div>
+        </div>
+
+        <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+            <img src="bh3.jpg" alt="Student dormitory" class="w-full h-full object-cover opacity-75">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col items-center justify-center text-center text-white px-4">
+                <span
+                    class="bg-[#d89a00] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3">Campus
+                    Living</span>
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">LIVE CLOSER TO CAMPUS</h2>
+                <p class="mt-3 text-base sm:text-lg font-medium text-slate-200">Spend less time commuting, more time
+                    studying.</p>
+            </div>
+        </div>
+
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+            <button type="button" onclick="showSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-white"></button>
+            <button type="button" onclick="showSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/50"></button>
+            <button type="button" onclick="showSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/50"></button>
+        </div>
+    </section>
+
+    <!-- MY LISTINGS SECTION -->
+    <section id="my-listings" class="py-16 px-5 sm:px-8 bg-[#fffaf0] dark:bg-slate-900 transition-colors duration-300">
+
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Section Heading -->
+            <div class="flex flex-col sm:flex-row sm:items-center
+                    sm:justify-between gap-5 mb-8">
+
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest
+                    text-[#d89a00]">HELPHIVE DASHBOARD</span>
+
+                    <h2 class="text-3xl font-extrabold mt-2
+                    text-slate-900 dark:text-white">
+                        My Listings
+                    </h2>
+
+                    <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                        Manage and keep track of your boarding house listings.
+                    </p>
+                </div>
+
+                <button type="button" onclick="hhOpenAdd()" class="inline-flex items-center justify-center gap-2
+                rounded-xl bg-[#d89a00] hover:bg-[#bd8500]
+                px-5 py-3 text-sm font-bold text-white shadow-sm
+                transition">
+                    <i class="fa-solid fa-plus"></i>
+                    Add New Listing
+                </button>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="flex flex-col sm:flex-row gap-3 mb-5">
+
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute
+                    left-4 top-1/2 -translate-y-1/2
+                    text-slate-400"></i>
+
+                    <input type="search" id="hh-search" placeholder="Search your listings..." class="w-full rounded-xl border border-slate-200
+                    dark:border-slate-700 bg-white dark:bg-slate-800
+                    py-3 pl-11 pr-4 text-sm text-slate-800
+                    dark:text-white outline-none focus:border-[#d89a00]">
+                </div>
+
+                <select id="hh-filter" class="rounded-xl border border-slate-200
+                dark:border-slate-700 bg-white dark:bg-slate-800
+                px-4 py-3 text-sm text-slate-700 dark:text-white
+                outline-none focus:border-[#d89a00]">
+                    <option value="all">All Listings</option>
+                    <option value="featured">Featured</option>
+                    <option value="verified">Verified</option>
+                </select>
+            </div>
+
+            <!-- Listing Count -->
+            <div class="flex justify-between items-center gap-3 mb-5
+            text-xs text-slate-500 dark:text-slate-400">
+                <p><strong id="hh-count" class="text-slate-900 dark:text-white">3</strong>
+                    listings found</p>
+
+                <p>
+                    <i class="fa-solid fa-shield-halved text-[#d89a00]"></i>
+                    Manage your properties
+                </p>
+            </div>
+
+            <!-- Listing Cards -->
+            <div id="hh-listing-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3
+            gap-6">
+            </div>
+
+            <!-- Empty State -->
+            <div id="hh-empty" class="hidden text-center py-16">
+                <i class="fa-solid fa-house-circle-xmark
+                text-4xl text-slate-300"></i>
+
+                <h3 class="font-bold text-lg mt-4
+                text-slate-800 dark:text-white">
+                    No listings found
+                </h3>
+
+                <p class="text-sm text-slate-500 mt-2">
+                    Try another search or add a new listing.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VIEW / EDIT / ADD LISTING MODAL -->
+    <div id="hh-modal" class="hidden fixed inset-0 z-[100] items-center justify-center
+    bg-black/60 backdrop-blur-sm p-4">
+
+        <div class="w-full max-w-xl max-h-[90vh] overflow-y-auto
+        rounded-2xl bg-white dark:bg-slate-900 shadow-2xl">
+
+            <!-- Modal Header -->
+            <div class="sticky top-0 z-10 flex items-center
+            justify-between gap-4 border-b border-slate-200
+            dark:border-slate-700 bg-white dark:bg-slate-900 p-5">
+
+                <div>
+                    <p class="text-[10px] font-bold tracking-widest
+                    text-[#d89a00]">PROPERTY MANAGEMENT</p>
+
+                    <h3 id="hh-modal-title" class="text-xl font-extrabold mt-1
+                    text-slate-900 dark:text-white">
+                        Listing Details
+                    </h3>
+                </div>
+
+                <button type="button" onclick="hhCloseModal()" class="flex h-9 w-9 items-center justify-center
+                rounded-full bg-slate-100 dark:bg-slate-800
+                text-slate-600 dark:text-white" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="hh-form" class="p-5">
+
+                <!-- View Details -->
+                <div id="hh-view-content"></div>
+
+                <!-- Edit / Add Form -->
+                <div id="hh-edit-fields" class="hidden space-y-4">
+
+                    <div>
+                        <label for="hh-name" class="block text-xs font-bold mb-2
+                        text-slate-700 dark:text-slate-200">
+                            Property Name
+                        </label>
+                        <input id="hh-name" name="name" required maxlength="100" class="hh-input"
+                            placeholder="e.g. Sunrise Boarding House">
+                    </div>
+
+                    <div>
+                        <label for="hh-location" class="block text-xs font-bold mb-2
+                        text-slate-700 dark:text-slate-200">
+                            Location
+                        </label>
+                        <input id="hh-location" name="location" required maxlength="150" class="hh-input"
+                            placeholder="Barangay, City">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="hh-price" class="block text-xs font-bold mb-2
+                            text-slate-700 dark:text-slate-200">
+                                Monthly Price (₱)
+                            </label>
+                            <input id="hh-price" name="price" type="number" min="1" required class="hh-input"
+                                placeholder="3500">
+                        </div>
+
+                        <div>
+                            <label for="hh-area" class="block text-xs font-bold mb-2
+                            text-slate-700 dark:text-slate-200">
+                                Area (sqm)
+                            </label>
+                            <input id="hh-area" name="area" type="number" min="1" required class="hh-input"
+                                placeholder="22">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="hh-room" class="block text-xs font-bold mb-2
+                        text-slate-700 dark:text-slate-200">
+                            Room Type
+                        </label>
+                        <input id="hh-room" name="room" required maxlength="80" class="hh-input"
+                            placeholder="Private Room / Bunk Bed">
+                    </div>
+
+                    <div>
+                        <label for="hh-wifi" class="block text-xs font-bold mb-2
+                        text-slate-700 dark:text-slate-200">
+                            Wi-Fi / Utilities
+                        </label>
+                        <input id="hh-wifi" name="wifi" required maxlength="100" class="hh-input"
+                            placeholder="Free WiFi">
+                    </div>
+
+                    <div>
+                        <label for="hh-bath" class="block text-xs font-bold mb-2
+                        text-slate-700 dark:text-slate-200">
+                            Bathroom Information
+                        </label>
+                        <input id="hh-bath" name="bath" required maxlength="50" class="hh-input"
+                            placeholder="1 bathroom">
+                    </div>
+
+                    <div>
+                        <label for="hh-owner" class="block text-xs font-bold mb-2
+                        text-slate-700 dark:text-slate-200">
+                            Owner Name
+                        </label>
+                        <input id="hh-owner" name="owner" required maxlength="100" class="hh-input"
+                            placeholder="Owner's name">
+                    </div>
+
+                    <div class="mb-4">
+    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-2">Upload Property Pictures for Slideshow (Max 3)</label>
+    
+    <div class="space-y-3 p-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+        <!-- Main Picture -->
+        <div>
+            <label for="hh-image" class="block text-xs font-bold mb-1 text-slate-700 dark:text-slate-200">
+                1. Main Cover Picture <span class="text-rose-500">*</span>
+            </label>
+            <input id="hh-image" name="image" type="file" accept="image/*" class="hh-input w-full p-2 border rounded-lg dark:bg-slate-800 dark:border-slate-700 text-xs">
+        </div>
+
+        <!-- Second Picture -->
+        <div>
+            <label for="hh-image-2" class="block text-xs font-bold mb-1 text-slate-700 dark:text-slate-200">
+                2. Second Picture
+            </label>
+            <input id="hh-image-2" name="image2" type="file" accept="image/*" class="hh-input w-full p-2 border rounded-lg dark:bg-slate-800 dark:border-slate-700 text-xs">
+        </div>
+
+        <!-- Third Picture -->
+        <div>
+            <label for="hh-image-3" class="block text-xs font-bold mb-1 text-slate-700 dark:text-slate-200">
+                3. Third Picture
+            </label>
+            <input id="hh-image-3" name="image3" type="file" accept="image/*" class="hh-input w-full p-2 border rounded-lg dark:bg-slate-800 dark:border-slate-700 text-xs">
+        </div>
+
+        <p class="text-[11px] text-slate-400">
+            Upload up to 3 pictures to instantly power the card slideshow with left/right navigation arrows.
+        </p>
+    </div>
+</div>
+
+                    <div>
+                        <label for="hh-status" class="block text-xs font-bold mb-2
+                        text-slate-700 dark:text-slate-200">
+                            Listing Status
+                        </label>
+                        <select id="hh-status" name="status" class="hh-input">
+                            <option value="featured">Featured</option>
+                            <option value="verified">Verified</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Modal Buttons -->
+                <div class="flex justify-end gap-3 mt-6 pt-5
+                border-t border-slate-200 dark:border-slate-700">
+
+                    <button type="button" onclick="hhCloseModal()" class="rounded-xl border border-slate-200
+                    dark:border-slate-700 px-5 py-3 text-sm
+                    font-semibold text-slate-600 dark:text-slate-200">
+                        Close
+                    </button>
+
+                    <button id="hh-save" type="submit" class="hidden rounded-xl bg-[#d89a00]
+                    hover:bg-[#bd8500] px-5 py-3 text-sm
+                    font-bold text-white">
+                        <i class="fa-solid fa-floppy-disk mr-1"></i>
+                        Save Listing
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+<script src="myproperty.js"></script>
+    <!-- FOOTER -->
+        <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-6 md:px-10 py-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                    <!-- BRAND -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <img src="4.png" alt="HelpHive Logo" class="w-9 h-9 object-contain">
+                            <span class="text-xl font-extrabold text-slate-900 dark:text-white">HelpHive</span>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
+                            Your trusted partner for finding comfortable, affordable, and verified student accommodations.
+                        </p>
+
+                        <div class="flex gap-3 mt-5">
+                            <a href="#" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                                <i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                                <i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                                <i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- QUICK LINKS -->
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Quick Links</h4>
+                        <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400">
+                            <li><a href="dashboard.html#top" class="hover:text-[#d89a00] transition-colors">Home</a></li>
+                            <li><a href="myproperty.html#top" class="text-[#d89a00] font-semibold border-b-2 border-[#d89a00] pb-1">My Properties</a></li>
+                            <li><a href="addproperty.html#top" class="hover:text-[#d89a00] transition-colors">Add Property</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- SUPPORT -->
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Support</h4>
+                        <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400">
+                            <li><a href="#" class="hover:text-[#d89a00]">Help Center</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- CONTACT -->
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Contact Info</h4>
+                        <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
+                            <li class="flex gap-3"><i class="fa-solid fa-phone text-[#d89a00] mt-1"></i>+639287641280</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-envelope text-[#d89a00] mt-1"></i>official.helphive@gmail.com</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-location-dot text-[#d89a00] mt-1"></i>Borongan City, Eastern Visayas 6800</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- COPYRIGHT -->
+                <div class="border-t border-slate-200 dark:border-slate-800 mt-10 pt-6 text-center text-xs text-slate-400">
+                    © 2026 HelpHive. All rights reserved.
+                </div>
+            </div>
+        </footer>
+
+        
+</body>
+</html>

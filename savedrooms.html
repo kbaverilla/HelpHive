@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <script>
+        if (localStorage.getItem("helpHiveDarkMode") === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="4.png">
+    <title>Saved Rooms | HelpHive</title>
+
+    <!-- Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .room-card {
+            transition: all 0.3s ease;
+        }
+        .room-card:hover {
+            transform: translateY(-5px);
+        }
+        .saved-heart {
+            animation: heartPop 0.25s ease;
+        }
+        @keyframes heartPop {
+            0% {
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .fade-up {
+            animation: fadeUp 0.5s ease forwards;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-poppins bg-[#fffaf0] dark:bg-slate-900 text-slate-800 dark:text-slate-100 antialiased transition-colors duration-300">
+    <!-- PAGE WRAPPER -->
+    <div id="top" class="min-h-screen flex flex-col">
+
+        <!-- TOP NAVIGATION BAR -->
+        <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-xs transition-colors">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+                <!-- LOGO -->
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                    <div class="text-2xl font-bold text-[#d89a00] flex items-center gap-2">
+                        <img src="4.png" alt="HelpHive Logo" class="w-10 h-10 object-contain">
+                        <span class="text-slate-900 dark:text-white font-extrabold tracking-tight text-xl sm:text-2xl">HelpHive</span>
+                    </div>
+                </div>
+
+                <!-- NAVIGATION -->
+                <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-slate-600 dark:text-slate-300">
+                    <a href="dashboard.html" class="hover:text-[#d89a00] transition-colors">Home</a>
+                    <a href="findroom.html" class="hover:text-[#d89a00] transition-colors">Find a Room</a>
+                    <a href="savedrooms.html" class="text-[#d89a00] font-semibold border-b-2 border-[#d89a00] pb-1">Saved Rooms</a>
+                    <a href="rentedroom.html" class="hover:text-[#d89a00] transition-colors">Rented Rooms</a>
+                </nav>
+
+                <!-- RIGHT SIDE -->
+                <div class="relative flex items-center gap-3">
+                    <!-- DARK MODE -->
+                    <button onclick="toggleDarkMode()" id="darkModeBtn" class="w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer" title="Toggle Dark/Light Mode">
+                        <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                        <i class="fa-solid fa-sun text-lg hidden dark:block text-amber-400"></i>
+                    </button>
+
+                    <!-- NOTIFICATION -->
+                    <button onclick="toggleNotifications()" class="relative w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer">
+                        <i class="fa-regular fa-bell text-lg"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                    </button>
+                        <div id="notificationDropdown" class="hidden absolute right-0 top-14 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
+                            <div class="p-4 border-b border-slate-100 dark:border-slate-700">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-bold text-slate-900 dark:text-white">
+                                        Notifications
+                                    </h3>
+                                    <span class="text-xs font-medium text-[#d89a00]">
+                                        0 new
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6 text-center">
+                                <div class="text-4xl mb-3">🐝</div>
+                                <h4 class="font-semibold text-slate-800 dark:text-white mb-1">
+                                    Your hive is quiet!
+                                </h4>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                                    No new notifications yet. We're still getting the hive ready!
+                                </p>
+                            </div>
+                        </div>
+
+                    <!-- SIGN IN -->
+                    <div class="relative pl-3 border-l border-slate-200 dark:border-slate-800">
+                        <button onclick="toggleProfileDropdown()" class="flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer shadow-xs">
+                            <i class="fa-regular fa-user text-base"></i>
+                            <span>Sign in</span>
+                        </button>
+
+                        <!-- DROPDOWN -->
+                        <div id="profileDropdown" class="hidden absolute right-0 mt-3 w-52 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl py-2 z-50 text-sm text-slate-200">
+                            <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                                <i class="fa-brands fa-google text-red-500 w-5 text-base"></i>
+                                Google</a>
+
+                            <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                                <i class="fa-brands fa-facebook text-red-500 w-5 text-base"></i>
+                                Facebook</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!--HERO-->
+        <section class="relative w-full h-[420px] overflow-hidden bg-slate-900">
+            <img src="dorm1.jpg" alt="Successfully rented rooms" class="w-full h-full object-cover opacity-75">
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col items-center justify-center text-center text-white px-4">
+                <span class="bg-[#d89a00] text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4">
+                    Student Housing
+                </span>
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+                    SAVED ROOMS
+                </h1>
+                <p class="mt-3 text-base sm:text-lg font-medium text-slate-200">
+                    Meow meow meow meow
+                </p>
+            </div>
+        </section>
+
+        <!-- MAIN CONTENT -->
+        <main id="search-section" class="max-w-7xl w-full mx-auto p-6 md:p-10 space-y-14 flex-1">
+
+            <!-- SEARCH BANNER -->
+            <div class="bg-gradient-to-r from-[#d89a00] to-[#f5c94b] rounded-3xl p-6 md:p-8 text-white shadow-xl">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2">Find your next home in Borongan </h2>
+                <p class="text-sm opacity-90 mb-6 max-w-xl">
+                    Search verified dormitories, boarding houses, and condormitel units near schools and city centers.
+                </p>
+
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-3 flex flex-col md:flex-row gap-3 text-slate-800 dark:text-slate-100 shadow-lg">
+                    <!-- LOCATION -->
+                    <div class="flex-1 flex items-center gap-3 px-3 py-2 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-location-dot text-[#d89a00]"></i>
+                        <div class="w-full">
+                            <p class="text-[10px] uppercase font-semibold text-slate-400">Location</p>
+                            <input id="locationSearch" type="text" placeholder="Borongan City Center" class="text-sm font-medium outline-none w-full bg-transparent dark:text-white">
+                        </div>
+                    </div>
+
+                    <!-- ROOM TYPE -->
+                    <div class="flex-1 flex items-center gap-3 px-3 py-2 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-bed text-[#d89a00]"></i>
+                        <div class="w-full">
+                            <p class="text-[10px] uppercase font-semibold text-slate-400">Room Type</p>
+                            <select id="roomTypeSearch" class="text-sm font-medium outline-none w-full bg-transparent cursor-pointer dark:bg-slate-800 dark:text-white">
+                                <option value="">All Room Types</option>
+                                <option value="Bunk Bed">Bunk Bed / Shared</option>
+                                <option value="Private Room">Private Room / Dormitory</option>
+                                <option value="Student Bed">Student Bed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- BUDGET -->
+                    <div class="flex-1 flex items-center gap-3 px-3 py-2">
+                        <i class="fa-solid fa-peso-sign text-[#d89a00]"></i>
+                        <div class="w-full">
+                            <p class="text-[10px] uppercase font-semibold text-slate-400">Max Budget</p>
+                            <input id="budgetSearch" type="number" placeholder="₱5,000 / month" class="text-sm font-medium outline-none w-full bg-transparent dark:text-white">
+                        </div>
+                    </div>
+
+                    <!-- SEARCH -->
+                    <button onclick="filterSavedRooms()" class="bg-[#d89a00] hover:bg-[#b98200] text-white font-semibold px-8 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Search</button>
+                </div>
+            </div>
+
+            <!-- SAVED ROOMS -->
+            <section>
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7">
+                    <div>
+                        <span class="text-[#d89a00] text-xs font-bold tracking-widest uppercase">Your Favorites</span>
+                        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-1">Saved Rooms</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Rooms you've saved for later.</p>
+                    </div>
+
+                    <!-- SAVED COUNT -->
+                    <div class="flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 rounded-xl shadow-sm">
+                        <i class="fa-solid fa-heart text-[#d89a00]"></i>
+                        <span id="savedCount" class="text-sm font-semibold text-slate-700 dark:text-slate-200">0 Saved</span>
+                    </div>
+                </div>
+
+                <!-- ROOM GRID -->
+                <div id="savedRoomsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+                <!-- EMPTY STATE -->
+                <div id="emptyState" class="hidden text-center py-20 px-6">
+                    <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-[#fff8df] dark:bg-amber-900/30 flex items-center justify-center">
+                        <i class="fa-regular fa-heart text-4xl text-[#d89a00]"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mb-2">No Saved Rooms Yet</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-7">
+                        You haven't saved any rooms yet. Go to Find a Room and tap the heart icon on a room you like.
+                    </p>
+                    <a href="findroom.html" class="inline-flex items-center gap-2 bg-[#d89a00] hover:bg-[#b98200] text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-md">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Find a Room</a>
+                </div>
+
+                <!-- NO SEARCH RESULTS -->
+                <div id="noResults" class="hidden text-center py-16">
+                    <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                        <i class="fa-solid fa-magnifying-glass text-3xl text-slate-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">No matching saved rooms</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Try changing your search filters.</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-6 md:px-10 py-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                    <!-- BRAND -->
+                    <div>
+                        <div class="flex items-center gap-2 mb-4">
+                            <img src="4.png" alt="HelpHive Logo" class="w-9 h-9 object-contain">
+                            <span class="text-xl font-extrabold text-slate-900 dark:text-white">HelpHive</span>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
+                            Your trusted partner for finding comfortable, affordable, and verified student accommodations.
+                        </p>
+
+                        <div class="flex gap-3 mt-5">
+                            <a href="#" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                                <i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                                <i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                                <i class="fa-brands fa-twitter"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- QUICK LINKS -->
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Quick Links</h4>
+                        <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400">
+                            <li><a href="dashboard.html#top" class="hover:text-[#d89a00] transition-colors">Home</a></li>
+                            <li><a href="findroom.html#top" class="hover:text-[#d89a00] transition-colors">Find a Room</a></li>
+                            <li><a href="savedrooms.html#top" class="text-[#d89a00] font-semibold border-b-2 border-[#d89a00] pb-1">Saved Rooms</a></li>
+                            <li><a href="rentedroom.html#top" class="hover:text-[#d89a00] transition-colors">Rented Rooms</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- SUPPORT -->
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Support</h4>
+                        <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400">
+                            <li><a href="#" class="hover:text-[#d89a00]">Help Center</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- CONTACT -->
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Contact Info</h4>
+                        <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
+                            <li class="flex gap-3"><i class="fa-solid fa-phone text-[#d89a00] mt-1"></i>+639287641280</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-envelope text-[#d89a00] mt-1"></i>official.helphive@gmail.com</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-location-dot text-[#d89a00] mt-1"></i>Borongan City, Eastern Visayas 6800</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- COPYRIGHT -->
+                <div class="border-t border-slate-200 dark:border-slate-800 mt-10 pt-6 text-center text-xs text-slate-400">
+                    © 2026 HelpHive. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+        /* SAVED ROOM STORAGE */
+        const STORAGE_KEY = "helpHiveSavedRooms";
+
+        /* GET SAVED ROOMS */
+        function getSavedRooms() {
+            try {
+                const saved =
+                    JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+                return Array.isArray(saved) ? saved : [];
+            } catch (error) {
+                console.error("Error reading saved rooms:", error);
+                return [];
+            }
+        }
+
+        /* SAVE ROOMS */
+        function setSavedRooms(rooms) {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(rooms)
+            );
+        }
+
+        /* DISPLAY SAVED ROOMS */
+        function displaySavedRooms(rooms = getSavedRooms()) {
+            const container =
+                document.getElementById("savedRoomsContainer");
+            const emptyState =
+                document.getElementById("emptyState");
+            const noResults =
+                document.getElementById("noResults");
+            const savedCount =
+                document.getElementById("savedCount");
+            container.innerHTML = "";
+            savedCount.textContent =
+                `${rooms.length} ${rooms.length === 1 ? "Saved" : "Saved"}`;
+
+            /* NO SAVED ROOMS */
+            if (rooms.length === 0) {
+                if (getSavedRooms().length === 0) {
+                    emptyState.classList.remove("hidden");
+                    noResults.classList.add("hidden");
+                } else {
+                    emptyState.classList.add("hidden");
+                    noResults.classList.remove("hidden");
+                }
+                return;
+            }
+            emptyState.classList.add("hidden");
+            noResults.classList.add("hidden");
+
+            /* CREATE CARDS */
+            rooms.forEach((room, index) => {
+                const card = document.createElement("div");
+                card.className =
+                    "room-card fade-up bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl";
+                card.style.animationDelay =
+                    `${index * 0.08}s`;
+
+                card.innerHTML = `
+                    <!-- IMAGE -->
+                    <div class="relative h-56 overflow-hidden bg-slate-200 dark:bg-slate-700">
+                        <img
+                            src="${escapeHTML(room.image || 'dorm1.jpg')}"
+                            alt="${escapeHTML(room.name || 'Saved room')}"
+                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                            onerror="this.src='dorm1.jpg'"
+                        >
+
+                        <!-- BADGE -->
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-[#d89a00] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow">
+                                ${escapeHTML(room.badge || "SAVED")}
+                            </span>
+                        </div>
+
+                        <!-- HEART -->
+                        <button
+                            onclick="removeSavedRoom('${escapeHTML(room.id)}')"
+                            title="Remove from saved rooms"
+                            class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/95 dark:bg-slate-900/90 flex items-center justify-center text-[#d89a00] shadow-md cursor-pointer">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <!-- CONTENT -->
+                    <div class="p-5">
+                        <!-- TITLE -->
+                        <div class="flex items-start justify-between gap-3 mb-2">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white">
+                                    ${escapeHTML(room.name || "Untitled Room")}
+                                </h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                    ${escapeHTML(room.id || "ROOM")}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- LOCATION -->
+                        <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-4">
+                            <i class="fa-solid fa-location-dot text-[#d89a00]"></i>
+                            ${escapeHTML(room.location || "Borongan City")}
+                        </div>
+
+                        <!-- PRICE -->
+                        <div class="mb-4">
+                            <span class="text-2xl font-extrabold text-[#d89a00]">
+                                ₱${formatPrice(room.price)}
+                            </span>
+                            <span class="text-xs text-slate-400">/ month</span>
+                        </div>
+
+                        <!-- FEATURES -->
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            <span class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 text-xs font-medium px-3 py-1.5 rounded-lg">
+                                <i class="fa-solid fa-bed text-[#d89a00]"></i>
+                                ${escapeHTML(room.type || "Room")}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 text-xs font-medium px-3 py-1.5 rounded-lg">
+                                <i class="fa-solid fa-wifi text-[#d89a00]"></i>
+                                ${escapeHTML(room.feature || "Available")}
+                            </span>
+                            ${room.bathrooms != null ? `
+                            <span class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 text-xs font-medium px-3 py-1.5 rounded-lg">
+                                <i class="fa-solid fa-bath text-[#d89a00]"></i>
+                                ${room.bathrooms} bath${room.bathrooms !== 1 ? "s" : ""}
+                            </span>
+                            ` : ""}
+                            ${room.size != null ? `
+                            <span class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 text-xs font-medium px-3 py-1.5 rounded-lg">
+                                <i class="fa-solid fa-ruler-combined text-[#d89a00]"></i>
+                                ${room.size} sqm
+                            </span>
+                            ` : ""}
+                        </div>
+
+                        <!-- OWNER + CONTACT -->
+                        <div class="border-t border-slate-100 dark:border-slate-700 pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <img
+                                    src="${escapeHTML(room.ownerImage || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80')}"
+                                    class="w-9 h-9 rounded-full object-cover"
+                                    alt="Owner"
+                                >
+
+                                <div>
+                                    <p class="text-xs text-slate-400">Owner</p>
+                                    <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                                        ${escapeHTML(room.owner || "Property Owner")}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- CONTACT BUTTONS -->
+                            <div class="flex items-center gap-1.5">
+                                <!-- SHARE -->
+                                <button
+                                    onclick="shareRoom('${escapeHTML(room.name || "Saved Room")}')"
+                                    class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-amber-50 hover:text-[#d89a00] flex items-center justify-center shadow-xs transition cursor-pointer"
+                                    title="Share">
+                                    <i class="fa-solid fa-share-nodes text-xs"></i>
+                                </button>
+
+                                <!-- EMAIL -->
+                                <button
+                                    onclick="window.location.href='login.html'"
+                                    class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-blue-50 hover:text-blue-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                    title="Email">
+                                    <i class="fa-regular fa-envelope text-xs"></i>
+                                </button>
+
+                                <!-- FACEBOOK -->
+                                <button
+                                    onclick="window.location.href='login.html'"
+                                    class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-sky-50 hover:text-sky-600 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                    title="Facebook">
+                                    <i class="fa-brands fa-facebook text-xs"></i>
+                                </button>
+
+                                <!-- WHATSAPP -->
+                                <button
+                                    onclick="window.location.href='login.html'"
+                                    class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-green-50 hover:text-green-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                    title="WhatsApp">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        /* REMOVE SAVED ROOM */
+        function removeSavedRoom(id) {
+            let savedRooms = getSavedRooms();
+            const room = savedRooms.find(
+                item => String(item.id) === String(id)
+            );
+            if (!room) {
+                return;
+            }
+            const confirmRemove =
+                confirm(`Remove "${room.name}" from your saved rooms?`);
+            if (!confirmRemove) {
+                return;
+            }
+            savedRooms =
+                savedRooms.filter(
+                    item => String(item.id) !== String(id)
+                );
+            setSavedRooms(savedRooms);
+            displaySavedRooms(savedRooms);
+        }
+
+        /* SEARCH / FILTER SAVED ROOMS */
+        function filterSavedRooms() {
+            const location =
+                document
+                    .getElementById("locationSearch")
+                    .value
+                    .toLowerCase()
+                    .trim()
+            const roomType =
+                document
+                    .getElementById("roomTypeSearch")
+                    .value
+                    .toLowerCase()
+                    .trim();
+            const budgetValue =
+                document
+                    .getElementById("budgetSearch")
+                    .value
+                    .trim();
+            const budget =
+                budgetValue === ""
+                    ? Infinity
+                    : Number(budgetValue);
+            const savedRooms = getSavedRooms();
+            const filtered =
+                savedRooms.filter(room => {
+                    const roomLocation =
+                        String(room.location || "")
+                            .toLowerCase();
+                    const roomTypeValue =
+                        String(room.type || "")
+                            .toLowerCase();
+                    const roomPrice =
+                        Number(room.price || 0);
+                    const locationMatch =
+                        !location ||
+                        roomLocation.includes(location);
+                    const typeMatch =
+                        !roomType ||
+                        roomTypeValue.includes(roomType);
+                    const budgetMatch =
+                        roomPrice <= budget;
+                    return (
+                        locationMatch &&
+                        typeMatch &&
+                        budgetMatch
+                    );
+                });
+            displaySavedRooms(filtered);
+        }
+
+        /* FORMAT PRICE */
+        function formatPrice(price) {
+            const number =
+                Number(price) || 0;
+            return number.toLocaleString("en-PH");
+        }
+
+        /* SECURITY / HTML ESCAPE */
+        function escapeHTML(value) {
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        /* SHARE ROOM */
+        async function shareRoom(name) {
+            const shareData = {
+                title: "HelpHive Saved Room",
+                text: `Check out ${name} on HelpHive!`,
+                url: window.location.href
+            };
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    await navigator.clipboard.writeText(
+                        `${name} - HelpHive`
+                    );
+                    alert("Room information copied!");
+                }
+            } catch (error) {
+                console.log("Share cancelled.");
+            }
+        }
+
+        /* MODAL */
+        function closeModal() {
+            const modal =
+                document.getElementById("welcomeModal");
+            modal.classList.add("hidden");
+        }
+
+        /* PROFILE DROPDOWN */
+        function toggleProfileDropdown() {
+            const dropdown =
+                document.getElementById("profileDropdown");
+            dropdown.classList.toggle("hidden");
+        }
+
+        document.addEventListener("click", function (event) {
+            const dropdown =
+                document.getElementById("profileDropdown");
+            const button =
+                event.target.closest(
+                    "button[onclick='toggleProfileDropdown()']"
+                );
+            if (
+                !dropdown.contains(event.target) &&
+                !button
+            ) {
+                dropdown.classList.add("hidden");
+            }
+        });
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById("notificationDropdown");
+            dropdown.classList.toggle("hidden");
+        }
+
+        /* DARK MODE */
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle("dark");
+            const isDark =
+                document.documentElement.classList.contains("dark");
+            localStorage.setItem(
+                "helpHiveDarkMode",
+                isDark ? "dark" : "light"
+            );
+        }
+        /* LOAD DARK MODE */
+        function loadDarkMode() {
+            const savedMode =
+                localStorage.getItem("helpHiveDarkMode");
+            if (savedMode === "dark") {
+                document.documentElement.classList.add("dark");
+            } else if (savedMode === "light") {
+                document.documentElement.classList.remove("dark");
+            }
+        }
+
+        /* UPDATE WHEN LOCAL STORAGE CHANGES */
+        window.addEventListener("storage", function (event) {
+            if (event.key === STORAGE_KEY) {
+                displaySavedRooms();
+            }
+        });
+
+        /* LIVE SEARCH */
+        document
+            .getElementById("locationSearch")
+            .addEventListener("input", function () {
+                filterSavedRooms();
+            });
+        document
+            .getElementById("roomTypeSearch")
+            .addEventListener("change", function () {
+                filterSavedRooms();
+            });
+        document
+            .getElementById("budgetSearch")
+            .addEventListener("input", function () {
+                filterSavedRooms();
+            });
+
+        /* PAGE LOAD */
+        document.addEventListener("DOMContentLoaded", function () {
+            loadDarkMode();
+            displaySavedRooms();
+            showSlide(0);
+        });
+    </script>
+</body>
+</html>

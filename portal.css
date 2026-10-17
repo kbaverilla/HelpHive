@@ -1,0 +1,862 @@
+
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ========================================
+   FEATURED ROOM CARDS
+======================================== */
+
+.hh-room-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hh-room-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.hh-gallery {
+    position: relative;
+    height: 210px;
+    overflow: hidden;
+    background: #f1f5f9;
+}
+
+.hh-gallery-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hh-gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: rgba(30, 41, 59, 0.65);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.hh-gallery-arrow:hover {
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.hh-gallery-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.hh-gallery-dots button {
+    width: 6px;
+    height: 6px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+.hh-gallery-dots button.active {
+    background: white;
+}
+
+.hh-id {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    color: #d99b00;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.hh-name {
+    color: #0f172a;
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.dark .hh-name {
+    color: white;
+}
+
+.hh-location {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 8px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.hh-location i,
+.hh-amenities i {
+    color: #e5a400;
+}
+
+.hh-price {
+    color: #d99b00;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.hh-month {
+    margin-left: 5px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.hh-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #eef2f7;
+}
+
+.dark .hh-amenities {
+    border-color: #334155;
+}
+
+.hh-amenities span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 11px;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.dark .hh-amenities span {
+    background: #334155;
+    color: #e2e8f0;
+}
+
+.hh-owner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+    padding: 12px 15px;
+    background: #f8fafc;
+    border-top: 1px solid #eef2f7;
+}
+
+.dark .hh-owner {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+.hh-owner-avatar {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 2px solid #eab308;
+    border-radius: 50%;
+    padding: 2px;
+    background: white;
+}
+
+.hh-owner b {
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.hh-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.hh-actions a,
+.hh-actions button {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: #64748b;
+    font-size: 11px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.hh-actions a:hover,
+.hh-actions button:hover {
+    background: #facc15;
+    color: #0f172a;
+}
+
+.dark .hh-actions a,
+.dark .hh-actions button {
+    background: #1e293b;
+    color: #cbd5e1;
+}
+
+/* ========================================
+   HERO
+======================================== */
+
+.hero {
+    position: relative;
+    min-height: 570px;
+    overflow: hidden;
+    background: #fffaf0;
+}
+
+.hero-image {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 53%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        #fffaf0 0%,
+        #fffaf0 38%,
+        rgba(255, 250, 240, 0.94) 48%,
+        rgba(255, 250, 240, 0.15) 75%,
+        rgba(255, 250, 240, 0) 100%
+    );
+}
+
+.dark .hero {
+    background: #0f172a;
+}
+
+.dark .hero-overlay {
+    background: linear-gradient(
+        90deg,
+        #0f172a 0%,
+        #0f172a 38%,
+        rgba(15, 23, 42, 0.94) 48%,
+        rgba(15, 23, 42, 0.2) 75%,
+        rgba(15, 23, 42, 0) 100%
+    );
+}
+
+/* ========================================
+   FLOATING BEE
+======================================== */
+
+.bee-float {
+    animation: beeFloat 4s ease-in-out infinite;
+}
+
+@keyframes beeFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(4deg);
+    }
+}
+
+/* ========================================
+   SEARCH
+======================================== */
+
+.search-card {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.09);
+}
+
+/* ========================================
+   RECENTLY RENTED SECTION
+======================================== */
+
+#recentlyRented {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 0 40px;
+    box-sizing: border-box;
+}
+
+#recentlyRented > div {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Recently Rented label */
+#recentlyRented .section-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #d99b00;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* Section heading */
+#recentlyRented h2 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 800;
+}
+
+.dark #recentlyRented h2 {
+    color: #f8fafc;
+}
+
+/* Section description */
+#recentlyRented .section-description {
+    margin: 0 0 24px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   RENTED PROPERTY CAROUSEL
+======================================== */
+
+#rentedPropertiesTrack {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 48px) / 3);
+    grid-template-columns: none;
+    align-items: stretch;
+    gap: 24px;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    box-sizing: border-box;
+}
+
+#rentedPropertiesTrack::-webkit-scrollbar {
+    display: none;
+}
+
+/* Each card must be a direct child of the track */
+#rentedPropertiesTrack > .rented-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    min-height: 560px;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    scroll-snap-align: start;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#rentedPropertiesTrack > .rented-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.dark #rentedPropertiesTrack > .rented-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+/* Rented card image */
+#rentedPropertiesTrack > .rented-card > .relative {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: #0f172a;
+}
+
+#rentedPropertiesTrack > .rented-card > .relative img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Rented property details */
+#rentedPropertiesTrack > .rented-card > .p-4 {
+    flex: 1;
+    min-height: 140px;
+    padding: 22px 24px;
+    box-sizing: border-box;
+}
+
+/* Rented property title */
+#rentedPropertiesTrack > .rented-card > .p-4 h3,
+#rentedPropertiesTrack > .rented-card > .p-4 h4 {
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 800;
+}
+
+/* Rented property location */
+#rentedPropertiesTrack > .rented-card > .p-4 p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Rented card owner footer */
+#rentedPropertiesTrack .rented-owner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 80px;
+    margin-top: auto;
+    padding: 16px 24px;
+    background: #f8fafc;
+    border-top: 1px solid #eef2f7;
+    box-sizing: border-box;
+}
+
+.dark #rentedPropertiesTrack .rented-owner {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+/* Owner avatar */
+#rentedPropertiesTrack .rented-owner img {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Owner name */
+#rentedPropertiesTrack .rented-owner h4 {
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+/* Owner action buttons */
+#rentedPropertiesTrack .rented-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #64748b;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+#rentedPropertiesTrack .rented-action:hover {
+    background: #facc15;
+    color: #0f172a;
+}
+
+.dark #rentedPropertiesTrack .rented-action {
+    background: #1e293b;
+    color: #cbd5e1;
+}
+
+/* ========================================
+   CAROUSEL ARROWS
+======================================== */
+
+#recentlyRented .relative {
+    position: relative;
+}
+
+#recentlyRented #rentedPrevBtn,
+#recentlyRented #rentedNextBtn {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #334155;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+#recentlyRented #rentedPrevBtn {
+    left: -22px;
+}
+
+#recentlyRented #rentedNextBtn {
+    right: -22px;
+}
+
+#recentlyRented #rentedPrevBtn:hover,
+#recentlyRented #rentedNextBtn:hover {
+    background: #fef3c7;
+    color: #d99b00;
+}
+
+/* ========================================
+   OTHER CARDS
+======================================== */
+
+.room-card,
+.stat-card,
+.why-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover,
+.stat-card:hover,
+.why-card:hover {
+    transform: translateY(-5px);
+}
+
+.room-image {
+    height: 230px;
+    object-fit: cover;
+}
+
+/* ========================================
+   LOGIN MODAL
+======================================== */
+
+#loginModal {
+    transition: opacity 0.3s ease;
+}
+
+#loginModal .modal-box {
+    animation: modalPop 0.3s ease;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ========================================
+   SHARE MESSAGE MODAL
+======================================== */
+
+.hh-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.hh-modal-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hh-modal {
+    width: 100%;
+    max-width: 440px;
+    padding: 25px;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    background: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    transform: translateY(12px);
+    transition: transform 0.2s ease;
+}
+
+.hh-modal-overlay.is-visible .hh-modal {
+    transform: translateY(0);
+}
+
+.dark .hh-modal {
+    background: #1e293b;
+    color: #f8fafc;
+    border-color: #334155;
+}
+
+.hh-modal h3 {
+    margin-bottom: 8px;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.hh-modal p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.dark .hh-modal p {
+    color: #cbd5e1;
+}
+
+.hh-modal textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0f172a;
+    outline: none;
+    resize: vertical;
+    font: inherit;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.dark .hh-modal textarea {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #475569;
+}
+
+.hh-modal textarea:focus {
+    border-color: #d89a00;
+    box-shadow: 0 0 0 3px rgba(216, 154, 0, 0.15);
+}
+
+.hh-modal-primary,
+.hh-modal-secondary {
+    padding: 11px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.hh-modal-primary {
+    border: none;
+    background: #f5c94b;
+    color: #1e293b;
+}
+
+.hh-modal-primary:hover {
+    background: #e8b72d;
+}
+
+.hh-modal-secondary {
+    border: 1px solid #cbd5e1;
+    background: transparent;
+    color: inherit;
+}
+
+.dark .hh-modal-secondary {
+    border-color: #475569;
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1050px) {
+    .hh-gallery {
+        height: 220px;
+    }
+
+    .hh-name {
+        font-size: 17px;
+    }
+
+    .hh-owner b {
+        font-size: 12px;
+    }
+
+    #recentlyRented {
+        max-width: 100%;
+        padding: 32px 24px 40px;
+    }
+
+    #rentedPropertiesTrack {
+        grid-auto-columns: calc((100% - 24px) / 2);
+        gap: 24px;
+    }
+
+    #rentedPropertiesTrack > .rented-card {
+        min-height: 520px;
+    }
+
+    #rentedPropertiesTrack > .rented-card > .relative {
+        height: 280px;
+    }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 640px) {
+    .hero {
+        min-height: 650px;
+    }
+
+    .hero-image {
+        width: 100%;
+        opacity: 0.25;
+    }
+
+    .hero-overlay {
+        background: linear-gradient(
+            90deg,
+            rgba(255, 250, 240, 0.98),
+            rgba(255, 250, 240, 0.82)
+        );
+    }
+
+    .dark .hero-overlay {
+        background: linear-gradient(
+            90deg,
+            rgba(15, 23, 42, 0.98),
+            rgba(15, 23, 42, 0.82)
+        );
+    }
+
+    .hh-gallery {
+        height: 190px;
+    }
+
+    .hh-owner {
+        padding: 12px;
+    }
+
+    .hh-owner-avatar {
+        width: 34px;
+        height: 34px;
+    }
+
+    .hh-actions {
+        gap: 4px;
+    }
+
+    .hh-actions a,
+    .hh-actions button {
+        width: 28px;
+        height: 28px;
+    }
+
+    .hh-amenities span {
+        padding: 6px 9px;
+        font-size: 10px;
+    }
+
+    #recentlyRented {
+        padding: 24px 16px 32px;
+    }
+
+    #recentlyRented h2 {
+        font-size: 23px;
+    }
+
+    #recentlyRented .section-description {
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    #rentedPropertiesTrack {
+        grid-auto-columns: 100%;
+        gap: 16px;
+    }
+
+    #rentedPropertiesTrack > .rented-card {
+        min-height: 0;
+    }
+
+    #rentedPropertiesTrack > .rented-card > .relative {
+        height: 240px;
+    }
+
+    #rentedPropertiesTrack > .rented-card > .p-4 {
+        min-height: 130px;
+        padding: 18px;
+    }
+
+    #rentedPropertiesTrack .rented-owner {
+        padding: 14px 18px;
+    }
+
+    #recentlyRented #rentedPrevBtn {
+        left: -8px;
+    }
+
+    #recentlyRented #rentedNextBtn {
+        right: -8px;
+    }
+
+    .hh-modal {
+        padding: 20px;
+    }
+}

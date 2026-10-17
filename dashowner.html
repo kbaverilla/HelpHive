@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <script>
+        if (localStorage.getItem("helpHiveDarkMode") === "dark") {
+            document.documentElement.classList.add("dark");
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="4.png">
+    <title>HelpHive - Find Verified Apartments, Condos & Student Rooms for Rent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body
+    class="font-poppins bg-[#fffaf0] dark:bg-slate-900 text-slate-800 dark:text-slate-100 antialiased transition-colors duration-300">
+    <div id="top"></div>
+    <!-- TOP NAVIGATION BAR -->
+    <header
+        class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-xs transition-colors">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+
+            <div class="flex items-center gap-2 cursor-pointer"
+                onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                <div class="text-2xl font-bold text-[#d89a00] flex items-center gap-2">
+                    <img src="4.png" alt="HelpHive Logo" class="w-10 h-10 object-contain">
+                    <span
+                        class="text-slate-900 dark:text-white font-extrabold tracking-tight text-xl sm:text-2xl">HelpHive</span>
+                </div>
+            </div>
+
+            <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-slate-600 dark:text-slate-300">
+                <a href="dashboard.html" class="text-[#d89a00] font-semibold border-b-2 border-[#d89a00] pb-1">Home</a>
+                <a href="myproperty.html" class="hover:text-[#d89a00] transition-colors">My Properties</a>
+                <a href="addproperty.html" class="hover:text-[#d89a00] transition-colors">Add Property</a>
+            </nav>
+
+            <div class="relative flex items-center gap-3">
+                <button onclick="toggleDarkMode()" id="darkModeBtn"
+                    class="w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer"
+                    title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                    <i class="fa-solid fa-sun text-lg hidden dark:block text-amber-400"></i>
+                </button>
+
+                <button onclick="toggleNotifications()"
+                    class="relative w-10 h-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all text-slate-600 dark:text-slate-300 cursor-pointer">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span
+                        class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+                </button>
+                <div id="notificationDropdown"
+                    class="hidden absolute right-0 top-14 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
+                    <div class="p-4 border-b border-slate-100 dark:border-slate-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-900 dark:text-white">
+                                Notifications
+                            </h3>
+                            <span class="text-xs font-medium text-[#d89a00]">
+                                0 new
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <div class="text-4xl mb-3">🐝</div>
+                        <h4 class="font-semibold text-slate-800 dark:text-white mb-1">
+                            Your hive is quiet!
+                        </h4>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                            No new notifications yet. We're still getting the hive ready!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative pl-3 border-l border-slate-200 dark:border-slate-800">
+                    <button onclick="toggleProfileDropdown()"
+                        class="flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer shadow-xs">
+                        <i class="fa-regular fa-user text-base"></i>
+                        <span>Sign in</span>
+                    </button>
+
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-3 w-52 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl py-2 z-50 text-sm text-slate-200">
+                        <a href="login.html"
+                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-google text-red-500 w-5 text-base"></i> Google
+                        </a>
+                        <a href="login.html"
+                            class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-800 transition-colors">
+                            <i class="fa-brands fa-facebook text-blue-500 w-5 text-base"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Hero Slider Section -->
+    <section class="relative w-full h-[420px] overflow-hidden bg-slate-900">
+
+        <div class="hero-slide absolute inset-0 opacity-100 transition-opacity duration-1000">
+            <img src="dorm1.jpg" alt="Student accommodation" class="w-full h-full object-cover opacity-75">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col items-center justify-center text-center text-white px-4">
+                <span
+                    class="bg-[#d89a00] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3">Borongan's
+                    Exclusive Student Rental Portal</span>
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">WELCOME TO HELPHIVE</h2>
+                <p class="mt-3 text-base sm:text-lg font-medium text-slate-200">Comfortable, affordable, verified rooms
+                    near your school.</p>
+            </div>
+        </div>
+
+        <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+            <img src="dorm2.jpg" alt="Modern boarding house" class="w-full h-full object-cover opacity-75">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col items-center justify-center text-center text-white px-4">
+                <span
+                    class="bg-[#d89a00] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3">Trusted
+                    Landlords</span>
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">A PLACE TO CALL HOME</h2>
+                <p class="mt-3 text-base sm:text-lg font-medium text-slate-200">Find a comfortable place to stay in
+                    Borongan City.</p>
+            </div>
+        </div>
+
+        <div class="hero-slide absolute inset-0 opacity-0 transition-opacity duration-1000">
+            <img src="bh3.jpg" alt="Student dormitory" class="w-full h-full object-cover opacity-75">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col items-center justify-center text-center text-white px-4">
+                <span
+                    class="bg-[#d89a00] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3">Campus
+                    Living</span>
+                <h2 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">LIVE CLOSER TO CAMPUS</h2>
+                <p class="mt-3 text-base sm:text-lg font-medium text-slate-200">Spend less time commuting, more time
+                    studying.</p>
+            </div>
+        </div>
+
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+            <button type="button" onclick="showSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-white"></button>
+            <button type="button" onclick="showSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/50"></button>
+            <button type="button" onclick="showSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/50"></button>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main id="search-section" class="max-w-7xl w-full mx-auto p-6 md:p-10 space-y-14 flex-1">
+
+        <!-- Search Filter Banner -->
+        <div class="bg-gradient-to-r from-[#d89a00] to-[#f5c94b] rounded-3xl p-6 md:p-8 text-white shadow-xl">
+            <h2 class="text-2xl md:text-3xl font-bold mb-2">Find your next home in Borongan</h2>
+            <p class="text-sm opacity-90 mb-6 max-w-xl">Search verified dormitories, boarding houses, and condormitel
+                units near schools and city centers.</p>
+
+            <div
+                class="bg-white dark:bg-slate-800 rounded-2xl p-3 flex flex-col md:flex-row gap-3 text-slate-800 dark:text-slate-100 shadow-lg">
+                <div
+                    class="flex-1 flex items-center gap-3 px-3 py-2 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-location-dot text-[#d89a00]"></i>
+                    <div class="w-full">
+                        <p class="text-[10px] uppercase font-semibold text-slate-400">Location</p>
+                        <input id="dashboardLocation" type="text" placeholder="Borongan City Center"
+                            class="text-sm font-medium outline-none w-full bg-transparent dark:text-white">
+                    </div>
+                </div>
+
+                <div
+                    class="flex-1 flex items-center gap-3 px-3 py-2 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-bed text-[#d89a00]"></i>
+                    <div class="w-full">
+                        <p class="text-[10px] uppercase font-semibold text-slate-400">Room Type</p>
+                        <select id="dashboardRoomType"
+                            class="text-sm font-medium outline-none w-full bg-transparent cursor-pointer dark:bg-slate-800 dark:text-white">
+                            <option value="Bunk Bed">Bunk Bed / Shared</option>
+                            <option value="Private Room">Private Room / Dormitory</option>
+                            <option value="Apartment">Apartment Unit</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex-1 flex items-center gap-3 px-3 py-2">
+                    <i class="fa-solid fa-peso-sign text-[#d89a00]"></i>
+                    <div class="w-full">
+                        <p class="text-[10px] uppercase font-semibold text-slate-400">Max Budget</p>
+                        <input id="dashboardBudget" type="text" placeholder="₱5,000 / month"
+                            class="text-sm font-medium outline-none w-full bg-transparent dark:text-white">
+                    </div>
+                </div>
+
+                <button onclick="searchRooms()"
+                    class="bg-[#d89a00] hover:bg-[#b98200] text-white font-semibold px-8 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md">
+                    <i class="fa-solid fa-magnifying-glass"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- FEATURED DORMS SECTION -->
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="font-bold text-xl text-slate-900 dark:text-white">Featured Dorms & Boarding Houses</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Handpicked verified listings with photo
+                        galleries for students and professionals</p>
+                </div>
+                <a href="findroom.html" class="text-sm font-semibold text-[#c99400] hover:underline">Explore All
+                    Listings &rarr;</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Card 1 -->
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xs hover:shadow-2xl transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="h-64 relative overflow-hidden bg-slate-900 card-slider" data-card="1">
+                            <div class="card-slides flex w-[300%] h-full transition-transform duration-300 ease-out">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnRnIUfp9yF1zsn3DtXFTMJ8c4imYn-QY14oI-aR4Sqg&s=10"
+                                    alt="Borongan Student Loft 1" class="w-1/3 h-full object-cover">
+                                <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3nyBSwOT5jEJNNdsd-RDii_rg2FwCIRJQEtcPON4pyA&s=10">
+                                <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_iIH5ehB9lDWV-6iI8pFXBveCT9KdxuvZ3JwuED51KQ&s=10">
+                            </div>
+
+                            <button onclick="moveCardSlide(1, -1)"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition cursor-pointer z-10">&#10094;</button>
+                            <button onclick="moveCardSlide(1, 1)"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition cursor-pointer z-10">&#10095;</button>
+
+                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                <span
+                                    class="card-dot-1 w-1.5 h-1.5 rounded-full bg-white shadow-xs transition-all"></span>
+                                <span
+                                    class="card-dot-1 w-1.5 h-1.5 rounded-full bg-white/50 shadow-xs transition-all"></span>
+                                <span
+                                    class="card-dot-1 w-1.5 h-1.5 rounded-full bg-white/50 shadow-xs transition-all"></span>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex items-center gap-1.5 text-xs font-bold text-[#c99400] mb-1">
+                                <span>HH-BOR001</span>
+                                <button onclick="alert('Copied Property ID!')"
+                                    class="text-slate-400 hover:text-slate-600 cursor-pointer"><i
+                                        class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <div class="flex items-center gap-1.5 mb-2">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-lg">Borongan Student Loft</h4>
+                                <i class="fa-solid fa-circle-check text-blue-500 text-sm" title="Verified Listing"></i>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-[#d89a00]"></i> Near City Center, Borongan City
+                            </p>
+                            <div class="text-2xl font-black text-[#d89a00] mb-4">
+                                ₱3,500 <span class="text-xs font-medium text-slate-400 uppercase tracking-wide">/
+                                    Monthly</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 pt-3 border-t border-slate-100 dark:border-slate-700">
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-bed text-[#d89a00]"></i>
+                                    Bunk Bed
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-wifi text-[#d89a00]"></i>
+                                    Free WiFi
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-bath text-[#d89a00]"></i>
+                                    1 bath
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-ruler-combined text-[#d89a00]"></i>
+                                    22 sqm
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="px-6 py-4 bg-slate-50 dark:bg-slate-700/40 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
+                                alt="Owner" class="w-9 h-9 rounded-full object-cover ring-2 ring-[#d89a00]/40">
+                            <div>
+                                <h6 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1">
+                                    Maria Santos <i class="fa-solid fa-circle-check text-blue-500 text-[10px]"></i>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-300">
+                            <button onclick="shareRoom('Borongan Student Loft')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-amber-50 hover:text-[#d89a00] flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Share">
+                                <i class="fa-solid fa-share-nodes text-xs"></i>
+                            </button>
+                            <button onclick="emailRoom('Borongan Student Loft')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-blue-50 hover:text-blue-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Email">
+                                <i class="fa-regular fa-envelope text-xs"></i>
+                            </button>
+                            <button onclick="shareFacebook('Borongan Student Loft')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-sky-50 hover:text-sky-600 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Facebook">
+                                <i class="fa-brands fa-facebook text-xs"></i>
+                            </button>
+                            <button onclick="shareWhatsApp('Borongan Student Loft')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-green-50 hover:text-green-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="WhatsApp">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xs hover:shadow-2xl transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="h-64 relative overflow-hidden bg-slate-900 card-slider" data-card="2">
+                            <div class="card-slides flex w-[300%] h-full transition-transform duration-300 ease-out">
+                                <img src="bh2.jpg" alt="Sunrise Boarding House 1" class="w-1/3 h-full object-cover">
+                                <img src="dorm2.jpg" alt="Sunrise Boarding House 2" class="w-1/3 h-full object-cover">
+                                <img src="dorm3.jpg" alt="Sunrise Boarding House 3" class="w-1/3 h-full object-cover">
+                            </div>
+
+                            <button onclick="moveCardSlide(2, -1)"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition cursor-pointer z-10">&#10094;</button>
+                            <button onclick="moveCardSlide(2, 1)"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition cursor-pointer z-10">&#10095;</button>
+
+                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                <span
+                                    class="card-dot-2 w-1.5 h-1.5 rounded-full bg-white shadow-xs transition-all"></span>
+                                <span
+                                    class="card-dot-2 w-1.5 h-1.5 rounded-full bg-white/50 shadow-xs transition-all"></span>
+                                <span
+                                    class="card-dot-2 w-1.5 h-1.5 rounded-full bg-white/50 shadow-xs transition-all"></span>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex items-center gap-1.5 text-xs font-bold text-[#c99400] mb-1">
+                                <span>HH-BOR002</span>
+                                <button onclick="alert('Copied Property ID!')"
+                                    class="text-slate-400 hover:text-slate-600 cursor-pointer"><i
+                                        class="fa-regular fa-copy"></i></button>
+                            </div>
+                            <div class="flex items-center gap-1.5 mb-2">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-lg">Sunrise Boarding House</h4>
+                                <i class="fa-solid fa-circle-check text-blue-500 text-sm" title="Verified Listing"></i>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-[#d89a00]"></i> Lalawigan, Borongan City
+                            </p>
+                            <div class="text-2xl font-black text-[#d89a00] mb-4">
+                                ₱4,500 <span class="text-xs font-medium text-slate-400 uppercase tracking-wide">/
+                                    Monthly</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 pt-3 border-t border-slate-100 dark:border-slate-700">
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-bed text-[#d89a00]"></i>
+                                    Private Room
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-wifi text-[#d89a00]"></i>
+                                    AC Available
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-bath text-[#d89a00]"></i>
+                                    5 baths
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-ruler-combined text-[#d89a00]"></i>
+                                    18 sqm
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="px-6 py-4 bg-slate-50 dark:bg-slate-700/40 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
+                                alt="Owner" class="w-9 h-9 rounded-full object-cover ring-2 ring-[#d89a00]/40">
+                            <div>
+                                <h6 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1">
+                                    Juan Dela Cruz <i class="fa-solid fa-circle-check text-blue-500 text-[10px]"></i>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-300">
+                            <button onclick="shareRoom('Sunrise Boarding House')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-amber-50 hover:text-[#d89a00] flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Share">
+                                <i class="fa-solid fa-share-nodes text-xs"></i>
+                            </button>
+                            <button onclick="emailRoom('Sunrise Boarding House')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-blue-50 hover:text-blue-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Email">
+                                <i class="fa-regular fa-envelope text-xs"></i>
+                            </button>
+                            <button onclick="shareFacebook('Sunrise Boarding House')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-sky-50 hover:text-sky-600 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Facebook">
+                                <i class="fa-brands fa-facebook text-xs"></i>
+                            </button>
+                            <button onclick="shareWhatsApp('Sunrise Boarding House')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-green-50 hover:text-green-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="WhatsApp">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xs hover:shadow-2xl transition-all group flex flex-col justify-between">
+                    <div>
+                        <div class="h-64 relative overflow-hidden bg-slate-900 card-slider" data-card="3">
+                            <div class="card-slides flex w-[300%] h-full transition-transform duration-300 ease-out">
+                                <img src="bh3.jpg" alt="Hive Dormitory Hub 1" class="w-1/3 h-full object-cover">
+                                <img src="dorm3.jpg" alt="Hive Dormitory Hub 2" class="w-1/3 h-full object-cover">
+                                <img src="dorm1.jpg" alt="Hive Dormitory Hub 3" class="w-1/3 h-full object-cover">
+                            </div>
+
+                            <button onclick="moveCardSlide(3, -1)"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition cursor-pointer z-10">&#10094;</button>
+                            <button onclick="moveCardSlide(3, 1)"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition cursor-pointer z-10">&#10095;</button>
+
+                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                                <span
+                                    class="card-dot-3 w-1.5 h-1.5 rounded-full bg-white shadow-xs transition-all"></span>
+                                <span
+                                    class="card-dot-3 w-1.5 h-1.5 rounded-full bg-white/50 shadow-xs transition-all"></span>
+                                <span
+                                    class="card-dot-3 w-1.5 h-1.5 rounded-full bg-white/50 shadow-xs transition-all"></span>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex items-center gap-1.5 text-xs font-bold text-[#c99400] mb-1">
+                                <span>HH-BOR003</span>
+                                <button onclick="alert('Copied Property ID!')"
+                                    class="text-slate-400 hover:text-slate-600 cursor-pointer"><i
+                                        class="fa-regular fa-copy"></i></button>
+                            </div>
+
+                            <div class="flex items-center gap-1.5 mb-2">
+                                <h4 class="font-bold text-slate-900 dark:text-white text-lg">Hive Dormitory Hub</h4>
+                                <i class="fa-solid fa-circle-check text-blue-500 text-sm" title="Verified Listing"></i>
+                            </div>
+
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-dot text-[#d89a00]"></i> Songco, Borongan City
+                            </p>
+
+                            <div class="text-2xl font-black text-[#d89a00] mb-4">
+                                ₱2,800 <span class="text-xs font-medium text-slate-400 uppercase tracking-wide">/
+                                    Monthly</span>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 pt-3 border-t border-slate-100 dark:border-slate-700">
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-bed text-[#d89a00]"></i>
+                                    Student Bed
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-wifi text-[#d89a00]"></i>
+                                    Utilities Included
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-bath text-[#d89a00]"></i>
+                                    1 bath
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-slate-300">
+                                    <i class="fa-solid fa-ruler-combined text-[#d89a00]"></i>
+                                    15 sqm
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="px-6 py-4 bg-slate-50 dark:bg-slate-700/40 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80"
+                                alt="Owner" class="w-9 h-9 rounded-full object-cover ring-2 ring-[#d89a00]/40">
+                            <div>
+                                <h6 class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1">
+                                    Mark Anthony <i class="fa-solid fa-circle-check text-blue-500 text-[10px]"></i>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-300">
+                            <button onclick="shareRoom('Hive Dormitory Hub')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-amber-50 hover:text-[#d89a00] flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Share">
+                                <i class="fa-solid fa-share-nodes text-xs"></i>
+                            </button>
+                            <button onclick="emailRoom('Hive Dormitory Hub')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-blue-50 hover:text-blue-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Email">
+                                <i class="fa-regular fa-envelope text-xs"></i>
+                            </button>
+                            <button onclick="shareFacebook('Hive Dormitory Hub')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-sky-50 hover:text-sky-600 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="Facebook">
+                                <i class="fa-brands fa-facebook text-xs"></i>
+                            </button>
+                            <button onclick="shareWhatsApp('Hive Dormitory Hub')"
+                                class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 hover:bg-green-50 hover:text-green-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                title="WhatsApp">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 2. Successfully Rented Properties Carousel -->
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <span
+                        class="text-[10px] font-bold uppercase tracking-widest text-[#d89a00] bg-[#fff8df] dark:bg-amber-900/40 px-2.5 py-1 rounded-full">
+                        RECENTLY RENTED
+                    </span>
+                    <h3 class="font-bold text-2xl text-slate-900 dark:text-white mt-1">
+                        Successfully Rented Properties
+                    </h3>
+                </div>
+            </div>
+
+            <!-- Carousel container -->
+            <div class="relative">
+
+                <!-- Previous button -->
+                <button type="button" id="rentedPrevBtn" aria-label="Previous rented properties"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 z-10 -translate-x-1/2 w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-white hover:text-[#d89a00] transition">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <!-- Sliding track -->
+                <div id="rentedPropertiesTrack"
+                    class="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2">
+
+                    <!-- KEEP THE EXISTING RENTED PROPERTY CARDS HERE -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Rented Card 1 -->
+                        <div
+                            class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xs hover:shadow-xl transition-all flex flex-col justify-between">
+                            <div>
+                                <div class="h-64 relative overflow-hidden bg-slate-900">
+                                    <img src="dorm1.jpg" alt="Rented Property"
+                                        class="w-full h-full object-cover opacity-60">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 flex flex-col justify-between p-5 text-white">
+                                        <div class="flex justify-between items-center">
+                                            <span
+                                                class="bg-[#1e293b]/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs">PRIVATE
+                                                ROOM</span>
+                                        </div>
+                                        <div class="text-center py-2">
+                                            <h4
+                                                class="text-lg font-black tracking-widest text-[#f5c94b] drop-shadow-md">
+                                                RENTED</h4>
+                                            <p class="text-xs font-medium text-slate-200 line-clamp-2 mt-1">Quiet
+                                                Private Room Near City Center</p>
+                                        </div>
+                                        <div
+                                            class="text-[10px] text-slate-300 flex justify-between border-t border-white/20 pt-2">
+                                            <span>₱4,000 / MONTH</span>
+                                            <span class="text-amber-300 font-semibold">HelpHive.ph</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-6">
+                                    <div class="flex items-center gap-1.5 text-xs font-bold text-[#c99400] mb-1">
+                                        <span>HH-BOR004</span>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white text-base truncate">Quiet
+                                        Private Room</h4>
+                                    <p
+                                        class="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1.5 mt-1">
+                                        <i class="fa-solid fa-location-dot text-[#d89a00]"></i> Maydolong Road, Borongan
+                                        City
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="px-6 py-4 bg-slate-50 dark:bg-slate-700/40 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
+                                        alt="Owner" class="w-8 h-8 rounded-full object-cover">
+                                    <div>
+                                        <h6
+                                            class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1 text-[11px]">
+                                            Michael Cruz <i
+                                                class="fa-solid fa-circle-check text-blue-500 text-[10px]"></i>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-300">
+                                    <button onclick="shareRoom('Quiet Private Room')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-[#d89a00] flex items-center justify-center shadow-xs transition cursor-pointer"
+                                        title="Share">
+                                        <i class="fa-solid fa-share-nodes text-[10px]"></i>
+                                    </button>
+                                    <button onclick="emailRoom('Quiet Private Room')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-blue-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                        title="Email">
+                                        <i class="fa-regular fa-envelope text-[10px]"></i>
+                                    </button>
+                                    <button onclick="shareFacebook('Quiet Private Room')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-sky-600 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                        title="Facebook">
+                                        <i class="fa-brands fa-facebook text-[10px]"></i>
+                                    </button>
+                                    <button onclick="shareWhatsApp('Quiet Private Room')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-green-500 flex items-center justify-center shadow-xs transition cursor-pointer"
+                                        title="WhatsApp">
+                                        <i class="fa-brands fa-whatsapp text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rented Card 2 -->
+                        <div
+                            class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xs hover:shadow-xl transition-all group flex flex-col justify-between">
+                            <div>
+                                <div class="h-64 relative overflow-hidden bg-slate-900">
+                                    <img src="dorm2.jpg" alt="Rented Property"
+                                        class="w-full h-full object-cover opacity-60">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 flex flex-col justify-between p-5 text-white">
+                                        <div class="flex justify-between items-center">
+                                            <span
+                                                class="bg-[#1e293b]/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs">APARTMENT</span>
+                                        </div>
+                                        <div class="text-center py-2">
+                                            <h4
+                                                class="text-lg font-black tracking-widest text-[#f5c94b] drop-shadow-md">
+                                                RENTED</h4>
+                                            <p class="text-xs font-medium text-slate-200 line-clamp-2 mt-1">Student
+                                                Shared Apartment Borongan City Center</p>
+                                        </div>
+                                        <div
+                                            class="text-[10px] text-slate-300 flex justify-between border-t border-white/20 pt-2">
+                                            <span>₱5,000 / MONTH</span>
+                                            <span class="text-amber-300 font-semibold">HelpHive.ph</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-6">
+                                    <div class="flex items-center gap-1.5 text-xs font-bold text-[#c99400] mb-1">
+                                        <span>HH-BOR005</span>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white text-base truncate">Student
+                                        Shared Apartment</h4>
+                                    <p
+                                        class="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1.5 mt-1">
+                                        <i class="fa-solid fa-location-dot text-[#d89a00]"></i> Borongan City Center,
+                                        Borongan City
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="px-6 py-4 bg-slate-50 dark:bg-slate-700/40 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80"
+                                        alt="Owner" class="w-8 h-8 rounded-full object-cover">
+                                    <div>
+                                        <h6
+                                            class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1 text-[11px]">
+                                            Sofia Lim <i class="fa-solid fa-circle-check text-blue-500 text-[10px]"></i>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-300">
+                                    <button onclick="shareRoom('Student Shared Apartment')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-[#d89a00] flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-solid fa-share-nodes text-[10px]"></i></button>
+                                    <button onclick="emailRoom('Student Shared Apartment')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-blue-500 flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-regular fa-envelope text-[10px]"></i></button>
+                                    <button onclick="shareFacebook('Student Shared Apartment')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-sky-600 flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-brands fa-facebook text-[10px]"></i></button>
+                                    <button onclick="shareWhatsApp('Student Shared Apartment')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-green-500 flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-brands fa-whatsapp text-xs"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rented Card 3 -->
+                        <div
+                            class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-xs hover:shadow-xl transition-all group flex flex-col justify-between">
+                            <div>
+                                <div class="h-64 relative overflow-hidden bg-slate-900">
+                                    <img src="dorm3.jpg" alt="Rented Property"
+                                        class="w-full h-full object-cover opacity-60">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 flex flex-col justify-between p-5 text-white">
+                                        <div class="flex justify-between items-center">
+                                            <span
+                                                class="bg-[#1e293b]/90 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-xs">DORMITORY</span>
+                                        </div>
+                                        <div class="text-center py-2">
+                                            <h4
+                                                class="text-lg font-black tracking-widest text-[#f5c94b] drop-shadow-md">
+                                                RENTED</h4>
+                                            <p class="text-xs font-medium text-slate-200 line-clamp-2 mt-1">Budget
+                                                Friendly Dorm Near ESSU Campus</p>
+                                        </div>
+                                        <div
+                                            class="text-[10px] text-slate-300 flex justify-between border-t border-white/20 pt-2">
+                                            <span>₱2,200 / MONTH</span>
+                                            <span class="text-amber-300 font-semibold">HelpHive.ph</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-6">
+                                    <div class="flex items-center gap-1.5 text-xs font-bold text-[#c99400] mb-1">
+                                        <span>HH-BOR006</span>
+                                    </div>
+                                    <h4 class="font-bold text-slate-900 dark:text-white text-base truncate">Budget
+                                        Friendly Dorm</h4>
+                                    <p
+                                        class="text-xs text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1.5 mt-1">
+                                        <i class="fa-solid fa-location-dot text-[#d89a00]"></i> Near ESSU Campus,
+                                        Borongan City
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="px-6 py-4 bg-slate-50 dark:bg-slate-700/40 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80"
+                                        alt="Owner" class="w-8 h-8 rounded-full object-cover">
+                                    <div>
+                                        <h6
+                                            class="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-1 text-[11px]">
+                                            Pedro Dela Cruz <i
+                                                class="fa-solid fa-circle-check text-blue-500 text-[10px]"></i>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-300">
+                                    <button onclick="shareRoom('Budget Friendly Dorm')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-[#d89a00] flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-solid fa-share-nodes text-[10px]"></i></button>
+                                    <button onclick="emailRoom('Budget Friendly Dorm')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-blue-500 flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-regular fa-envelope text-[10px]"></i></button>
+                                    <button onclick="shareFacebook('Budget Friendly Dorm')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-sky-600 flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-brands fa-facebook text-[10px]"></i></button>
+                                    <button onclick="shareWhatsApp('Budget Friendly Dorm')"
+                                        class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 hover:text-green-500 flex items-center justify-center shadow-xs transition cursor-pointer"><i
+                                            class="fa-brands fa-whatsapp text-xs"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Next button -->
+                        <button
+                            type="button"
+                            id="rentedNextBtn"
+                            aria-label="Next rented properties"
+                            class="absolute right-0 top-1/2 -translate-y-1/2 z-10 translate-x-1/2 w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-white hover:text-[#d89a00] transition">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                <!-- BRAND -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <img src="4.png" alt="HelpHive Logo" class="w-9 h-9 object-contain">
+                        <span class="text-xl font-extrabold text-slate-900 dark:text-white">HelpHive</span>
+                    </div>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-xs">
+                        Your trusted partner for finding comfortable, affordable, and verified student accommodations.
+                    </p>
+
+                    <div class="flex gap-3 mt-5">
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                            <i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                            <i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:text-[#d89a00]">
+                            <i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- QUICK LINKS -->
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400">
+                        <li><a href="dashboard.html#top"
+                                class="text-[#d89a00] font-semibold border-b-2 border-[#d89a00] pb-1">Home</a></li>
+                        <li><a href="myproperty.html#top" class="hover:text-[#d89a00] transition-colors">My
+                                Properties</a></li>
+                        <li><a href="addproperty.html#top" class="hover:text-[#d89a00] transition-colors">Add
+                                Property</a></li>
+                    </ul>
+                </div>
+
+                <!-- SUPPORT -->
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white mb-4">Support</h4>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-slate-400">
+                        <li><a href="#" class="hover:text-[#d89a00]">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- CONTACT -->
+                <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white mb-4">Contact Info</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
+                        <li class="flex gap-3"><i class="fa-solid fa-phone text-[#d89a00] mt-1"></i>+639287641280</li>
+                        <li class="flex gap-3"><i
+                                class="fa-solid fa-envelope text-[#d89a00] mt-1"></i>official.helphive@gmail.com</li>
+                        <li class="flex gap-3"><i class="fa-solid fa-location-dot text-[#d89a00] mt-1"></i>Borongan
+                            City, Eastern Visayas 6800</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- COPYRIGHT -->
+            <div class="border-t border-slate-200 dark:border-slate-800 mt-10 pt-6 text-center text-xs text-slate-400">
+                © 2026 HelpHive. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script src="../js/dashowner.js"></script>
+</body>
+
+<script>
+    function closeModal() {
+        document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    /* DASHBOARD SEARCH */
+    function searchRooms() {
+        const location =
+            document.getElementById("dashboardLocation").value.trim();
+        const type =
+            document.getElementById("dashboardRoomType").value.trim();
+        let budget =
+            document.getElementById("dashboardBudget").value.trim();
+
+        /* Remove peso sign, commas, and extra text */
+        budget = budget.replace(/[₱,\s]/g, "");
+        budget = budget.replace(/\/.*$/, "");
+
+        const params = new URLSearchParams();
+        if (location) {
+            params.set("location", location);
+        }
+        if (type) {
+            params.set("type", type);
+        }
+        if (budget && !isNaN(Number(budget))) {
+            params.set("budget", budget);
+        }
+        window.location.href =
+            `findroom.html${params.toString() ? "?" + params.toString() : ""}`;
+    }
+
+    function toggleProfileDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('hidden');
+    }
+
+    window.addEventListener('click', function (e) {
+        const dropdown = document.getElementById('profileDropdown');
+        const container = dropdown.parentElement;
+        if (!container.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+        const isDark =
+            document.documentElement.classList.contains("dark");
+        localStorage.setItem(
+            "helpHiveDarkMode",
+            isDark ? "dark" : "light"
+        );
+    }
+    function loadDarkMode() {
+        const mode =
+            localStorage.getItem("helpHiveDarkMode");
+        if (mode === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }
+
+    /* NOTIFICATIONS */
+    function toggleNotifications() {
+        const dropdown = document.getElementById("notificationDropdown");
+        dropdown.classList.toggle("hidden");
+    }
+
+    // FAQ Accordion Toggle
+    function toggleFaq(button) {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('fa-chevron-down, i');
+
+        if (content.classList.contains('hidden')) {
+            content.classList.remove('hidden');
+            if (icon) icon.style.transform = 'rotate(180deg)';
+        } else {
+            content.classList.add('hidden');
+            if (icon) icon.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    /* FEATURED ROOM CONTACT ACTIONS */
+    async function shareRoom(name) {
+        const data = {
+            title: "HelpHive Room",
+            text: `Check out ${name} on HelpHive!`,
+            url: window.location.href
+        };
+        try {
+            if (navigator.share) {
+                await navigator.share(data);
+            } else {
+                await navigator.clipboard.writeText(
+                    `${name} - HelpHive\n${window.location.href}`
+                );
+
+                alert("Room information copied!");
+            }
+        } catch (error) {
+            console.log("Share cancelled.");
+        }
+    }
+    function emailRoom(name) {
+        const subject =
+            encodeURIComponent(`Inquiry about ${name}`);
+        const body =
+            encodeURIComponent(
+                `Hi, I found ${name} on HelpHive and would like to know more about this room.`
+            );
+        window.location.href =
+            `mailto:?subject=${subject}&body=${body}`;
+    }
+    function shareFacebook(name) {
+        const url =
+            encodeURIComponent(window.location.href);
+        window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+            "_blank",
+            "noopener,noreferrer"
+        );
+    }
+    function shareWhatsApp(name) {
+        const text =
+            encodeURIComponent(
+                `Check out ${name} on HelpHive!\n${window.location.href}`
+            );
+        window.open(
+            `https://wa.me/?text=${text}`,
+            "_blank",
+            "noopener,noreferrer"
+        );
+    }
+
+    // Hero Slider Logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slide-dot');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.style.opacity = i === index ? '1' : '0';
+        });
+        dots.forEach((dot, i) => {
+            dot.style.backgroundColor = i === index ? 'white' : 'rgba(255, 255, 255, 0.5)';
+        });
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function previousSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000);
+
+    // Card Photo Gallery Sliders State
+    const cardIndices = { 1: 0, 2: 0, 3: 0 };
+    const totalCardSlides = 3;
+
+    function moveCardSlide(cardId, direction) {
+        cardIndices[cardId] = (cardIndices[cardId] + direction + totalCardSlides) % totalCardSlides;
+        updateCardSlider(cardId);
+    }
+
+    function updateCardSlider(cardId) {
+        const slider = document.querySelector(`.card-slider[data-card="${cardId}"] .card-slides`);
+        const index = cardIndices[cardId];
+        slider.style.transform = `translateX(-${index * (100 / totalCardSlides)}%)`;
+
+        const dots = document.querySelectorAll(`.card-dot-${cardId}`);
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.style.backgroundColor = 'white';
+                dot.style.opacity = '1';
+            } else {
+                dot.style.backgroundColor = 'white';
+                dot.style.opacity = '0.5';
+            }
+        });
+    }
+    loadDarkMode();
+   
+    <script src="../js/dashowner.js"></script>
+</body>
+</html>
+
