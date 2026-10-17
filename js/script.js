@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
                 console.log("Student account detected.");
             
-                window.location.href = "dashboard.html";
+                window.location.href = "../student/dashboard.html";
             
                 return;
             }
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 console.log("Property owner account detected.");
 
-                window.location.href = "dashowner.html";
+                window.location.href = "../owner/dashowner.html";
 
                 return;
             }

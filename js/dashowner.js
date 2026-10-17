@@ -1,4 +1,3 @@
-```javascript
 /* =========================================
    HELPHIVE DASHOWNER.JS
    Works with the supplied dashowner.html
@@ -268,7 +267,7 @@ function searchRooms() {
     const query = params.toString();
 
     window.location.href =
-        "findroom.html" + (query ? `?${query}` : "");
+        "../student/findroom.html" + (query ? `?${query}` : "");
 }
 
 /* =========================================
@@ -504,4 +503,3 @@ function closeModal() {
         modal.classList.add("hidden");
     }
 }
-```

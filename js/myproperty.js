@@ -425,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.hhCloseModal = closeModal;
 
     window.viewProperty = id => {
-        window.location.href = `roomdetails.html?id=${id}`;
+        window.location.href = `../owner/roomdetails.html?id=${id}`;
     };
 
     window.editProperty = id => {

@@ -39,7 +39,7 @@ document
     .getElementById('loginModal')
     .addEventListener(
         'click',
-        function(event) {
+        function (event) {
 
             if (event.target === this) {
 
@@ -57,7 +57,7 @@ document
 
 document.addEventListener(
     'keydown',
-    function(event) {
+    function (event) {
 
         if (event.key === 'Escape') {
 
@@ -162,12 +162,12 @@ loadDarkMode();
 const heroImage = document.querySelector(".hero-image");
 
 const roomImages = [
-    "dorm1.jpg",
-    "dorm2.jpg",
-    "dorm3.jpg",
-    "bh1.jpg",
-    "bh2.jpg",
-    "bh3.jpg"
+    "images/dorm1.jpg",
+    "images/dorm2.jpg",
+    "images/dorm3.jpg",
+    "images/bh1.jpg",
+    "images/bh2.jpg",
+    "images/bh3.jpg"
 
 ];
 
@@ -199,57 +199,57 @@ function changeHeroImage() {
 }
 
 function changeRoomPhoto(button, direction) {
-  const gallery = button.closest('.hh-gallery');
-  const image = gallery.querySelector('.hh-gallery-image');
-  const images = image.dataset.images.split(',');
-  let index = Number(image.dataset.index || 0);
+    const gallery = button.closest('.hh-gallery');
+    const image = gallery.querySelector('.hh-gallery-image');
+    const images = image.dataset.images.split(',');
+    let index = Number(image.dataset.index || 0);
 
-  index = (index + direction + images.length) % images.length;
-  image.dataset.index = index;
-  image.src = images[index].trim();
+    index = (index + direction + images.length) % images.length;
+    image.dataset.index = index;
+    image.src = images[index].trim();
 
-  gallery.querySelectorAll('.hh-gallery-dots button')
-    .forEach((dot, i) => dot.classList.toggle('active', i === index));
+    gallery.querySelectorAll('.hh-gallery-dots button')
+        .forEach((dot, i) => dot.classList.toggle('active', i === index));
 }
 
 document.querySelectorAll('.hh-gallery-dots').forEach(dots => {
-  dots.querySelectorAll('button').forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-      const gallery = dots.closest('.hh-gallery');
-      const image = gallery.querySelector('.hh-gallery-image');
-      const images = image.dataset.images.split(',');
+    dots.querySelectorAll('button').forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            const gallery = dots.closest('.hh-gallery');
+            const image = gallery.querySelector('.hh-gallery-image');
+            const images = image.dataset.images.split(',');
 
-      image.dataset.index = index;
-      image.src = images[index].trim();
+            image.dataset.index = index;
+            image.src = images[index].trim();
 
-      dots.querySelectorAll('button')
-        .forEach((item, i) => item.classList.toggle('active', i === index));
+            dots.querySelectorAll('button')
+                .forEach((item, i) => item.classList.toggle('active', i === index));
+        });
     });
-  });
 });
 
 function copyListingId(id) {
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(id)
-      .then(() => alert('Listing ID copied: ' + id))
-      .catch(() => prompt('Copy listing ID:', id));
-  } else {
-    prompt('Copy listing ID:', id);
-  }
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(id)
+            .then(() => alert('Listing ID copied: ' + id))
+            .catch(() => prompt('Copy listing ID:', id));
+    } else {
+        prompt('Copy listing ID:', id);
+    }
 }
 
 function shareRoom(name) {
-  if (navigator.share) {
-    navigator.share({
-      title: name,
-      text: 'Check out ' + name + ' on HelpHive.'
-    }).catch(() => {});
-  } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(name + ' - HelpHive')
-      .then(() => alert('Listing name copied.'));
-  } else {
-    alert(name + ' - HelpHive');
-  }
+    if (navigator.share) {
+        navigator.share({
+            title: name,
+            text: 'Check out ' + name + ' on HelpHive.'
+        }).catch(() => { });
+    } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(name + ' - HelpHive')
+            .then(() => alert('Listing name copied.'));
+    } else {
+        alert(name + ' - HelpHive');
+    }
 }
 
 

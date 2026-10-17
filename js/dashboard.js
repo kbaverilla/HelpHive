@@ -1,26 +1,5 @@
 import { supabase } from './supabaseconfig.js';
 
-/* ===== SUPABASE USER (TEMPORARILY CLOSED TO ACCESS DASHBOARD!) ===== */
-
-//const { data: { user } } = await supabase.auth.getUser();
-
-/* if (!user) {
-   window.location.href = "login.html";
-} else {
-    const displayName =
-        user.user_metadata?.full_name ||
-        user.user_metadata?.name ||
-        user.email?.split("@")[0] ||
-        "User";
-
-    const initial = displayName.charAt(0).toUpperCase();
-    const userNameEl = document.getElementById("userName");
-    const userAvatarEl = document.getElementById("userAvatar");
-
-    if (userNameEl) userNameEl.textContent = displayName;
-    if (userAvatarEl) userAvatarEl.textContent = initial;
-} */
-
 /* ===== HERO SLIDESHOW ===== */
 
 let currentSlide = 0;
