@@ -1,6 +1,5 @@
-
+import { supabase } from "./supabaseconfig.js";
 document.addEventListener("DOMContentLoaded", () => {
-    const supabase = window.supabaseClient;
     const form = document.getElementById("property-form");
     const message = document.getElementById("property-message");
 
@@ -107,11 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 owner_id: user.id,
                 property_name: propertyName,
                 property_type: propertyType,
-                full_address: propertyAddress,
+                address: propertyAddress,
+                price: monthlyRent,
                 description: propertyDescription,
                 available_rooms: availableRooms,
                 room_type: roomType,
-                monthly_rent: monthlyRent,
                 electricity_charges: electricityCharge,
                 water_charges: waterCharge,
                 amenities: amenities,

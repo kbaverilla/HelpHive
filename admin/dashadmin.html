@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+  <!-- PAGE SETUP -->
+  <script>
+    // Keep the same HelpHive theme preference used by the other dashboards.
+    if (localStorage.getItem("helpHiveDarkMode") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HelpHive | Admin Dashboard</title>
+  <link rel="icon" type="image/png" href="../images/4.png">
+
+  <!-- FONTS, ICONS & TAILWIND -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: { extend: { fontFamily: { poppins: ["Poppins", "sans-serif"] } } }
+    };
+  </script>
+</head>
+
+<body
+  class="min-h-screen bg-[#fffaf0] font-poppins text-slate-800 antialiased transition-colors dark:bg-slate-950 dark:text-slate-100">
+  <!-- APP SHELL -->
+  <div class="min-h-[calc(100vh-34px)] lg:flex">
+    <!-- SIDEBAR -->
+    <aside id="sidebar"
+      class="hidden w-full shrink-0 border-r border-slate-800 bg-slate-900 p-5 lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:h-screen lg:w-64 lg:flex-col lg:overflow-y-auto">
+
+      <!-- BRAND -->
+      <div class="mb-9 flex items-center gap-3 px-2 pt-2">
+        <img src="../images/4.png" alt="HelpHive logo" class="h-11 w-11 object-contain">
+        <span class="text-xl font-extrabold tracking-tight text-white">
+          Help<span class="text-[#d89a00]">Hive</span>
+        </span>
+      </div>
+
+      <!-- SIDEBAR NAVIGATION -->
+      <p class="mb-3 px-3 text-[11px] font-medium uppercase tracking-[0.18em] text-slate-400">
+        Administration
+      </p>
+      <nav class="space-y-1" aria-label="Admin navigation">
+        <button class="nav-link nav-active" data-section="overview"><i class="fa-solid fa-chart-pie w-5"></i>
+          Overview
+        </button>
+
+        <button class="nav-link" data-section="users"><i class="fa-solid fa-users w-5"></i>
+          Users
+        </button>
+
+        <button class="nav-link" data-section="listings"><i class="fa-solid fa-house w-5"></i>
+          Listings
+          </span>
+        </button>
+
+        <button class="nav-link" data-section="reports"><i class="fa-solid fa-flag w-5"></i>
+          Reports
+        </button>
+      </nav>
+
+      <!-- SIDEBAR FOOTER: ADMIN PROFILE -->
+      <div class="mt-auto border-t border-slate-700 pt-4">
+        <div class="flex items-center gap-2">
+          <!-- ADMIN PROFILE -->
+          <div class="flex min-w-0 flex-1 items-center gap-3 rounded-xl p-2">
+            <!-- ADMIN AVATAR -->
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-200 font-bold text-amber-950">
+              <i class="fa-solid fa-user text-base"></i>
+            </div>
+            <!-- ADMIN DETAILS -->
+            <div class="min-w-0">
+              <p class="truncate text-xs font-bold text-white">Admin</p>
+              <p class="truncate text-xs text-slate-400">Administrator</p>
+            </div>
+          </div>
+          <!-- LOGOUT BUTTON -->
+          <button id="adminLogoutButton" type="button"
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+            title="Log out" aria-label="Log out">
+            <i class="fa-solid fa-right-from-bracket text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main id="mainContent" class="lg:ml-64 min-w-0 flex-1">
+
+      <!-- TOP BAR -->
+      <header
+        class="sticky top-0 z-20 flex items-center justify-between border-b border-slate-200 bg-white/90 px-4 py-4 backdrop-blur md:px-8 dark:border-slate-800 dark:bg-slate-900/90">
+        <div class="flex min-w-0 flex-1 items-center gap-3">
+          <!-- SIDEBAR TOGGLE BUTTON -->
+          <button id="mobileMenuButton" type="button"
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            aria-label="Toggle navigation" aria-expanded="true">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <!-- ADMIN DASHBOARD SEARCH -->
+          <div class="min-w-0 flex-1 sm:ml-3">
+            <label for="adminGlobalSearch" class="sr-only">
+              Search admin dashboard
+            </label>
+            <div class="relative w-full max-w-[560px]">
+              <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                aria-hidden="true">
+              </i>
+              <!-- GLOBAL SEARCH RESULTS -->
+              <div id="adminSearchDropdown" class="absolute left-0 right-0 top-full z-50 mt-2 hidden overflow-hidden
+                        rounded-xl border border-slate-200 bg-white shadow-xl
+                        dark:border-slate-700 dark:bg-slate-900" role="listbox" aria-label="Global search results">
+                <div id="adminSearchResults" class="max-h-80 overflow-y-auto p-2"></div>
+              </div>
+              <input id="adminGlobalSearch" type="search" placeholder="Search users, listings, reports..."
+                autocomplete="off"
+                class="h-10 w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-slate-300 dark:focus:border-slate-600 focus:ring-0 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500" />
+            </div>
+          </div>
+        </div>
+
+        <div class="ml-4 flex shrink-0 items-center gap-2 sm:gap-3">
+          <!-- DARK MODE BUTTON -->
+          <button id="themeToggle" type="button"
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            title="Toggle dark mode" aria-label="Toggle dark mode">
+            <i class="fa-solid fa-moon dark:hidden"></i>
+            <i class="fa-solid fa-sun hidden text-amber-400 dark:block"></i>
+          </button>
+
+          <!-- NOTIFICATION BELL -->
+          <div class="relative">
+            <button id="notificationButton" type="button"
+              class="relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+              aria-label="Open notifications" aria-expanded="false" aria-controls="notificationPanel">
+              <i class="fa-regular fa-bell text-lg"></i>
+            </button>
+
+            <!-- NOTIFICATION DROPDOWN -->
+            <div id="notificationPanel"
+              class="absolute right-0 top-12 z-50 hidden w-80 max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-900">
+
+              <div class="border-b border-slate-200 px-4 py-3 dark:border-slate-700">
+                <h3 class="font-medium text-slate-900 dark:text-white">Notifications</h3>
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                  Items that may need your attention
+                </p>
+              </div>
+
+              <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                <!-- PENDING LISTINGS -->
+                <button type="button"
+                  class="notification-item flex w-full items-start gap-3 p-4 text-left transition hover:bg-slate-50 dark:hover:bg-slate-800"
+                  data-go="listings">
+                  <span
+                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-800">
+                    <i class="fa-solid fa-house"></i>
+                  </span>
+
+                  <span class="min-w-0 flex-1">
+                    <span class="block text-sm font-medium text-slate-800 dark:text-slate-100">
+                      2 listings pending approval
+                    </span>
+                    <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">
+                      Review submitted properties.
+                    </span>
+                  </span>
+
+                  <i class="fa-solid fa-chevron-right mt-1 text-xs text-slate-400"></i>
+                </button>
+
+                <!-- USER REPORTS -->
+                <button type="button"
+                  class="notification-item flex w-full items-start gap-3 p-4 text-left transition hover:bg-slate-50 dark:hover:bg-slate-800"
+                  data-go="reports">
+                  <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-100 text-rose-700">
+                    <i class="fa-solid fa-flag"></i>
+                  </span>
+
+                  <span class="min-w-0 flex-1">
+                    <span class="block text-sm font-medium text-slate-800 dark:text-slate-100">
+                      4 user reports to review
+                    </span>
+                    <span class="mt-1 block text-xs text-slate-500 dark:text-slate-400">
+                      Check reports submitted by users.
+                    </span>
+                  </span>
+
+                  <i class="fa-solid fa-chevron-right mt-1 text-xs text-slate-400"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- ADMIN PROFILE BUTTON -->
+          <button id="adminProfileButton" type="button" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full
+                    border border-slate-200 bg-amber-100 text-amber-950
+                    transition hover:bg-amber-200
+                    focus:outline-none focus:ring-2 focus:ring-amber-400
+                    dark:border-slate-700 dark:bg-slate-800 dark:text-amber-300
+                    dark:hover:bg-slate-700" title="Admin profile" aria-label="Admin profile">
+            <i class="fa-solid fa-user text-base"></i>
+          </button>
+
+          <!-- BACK TO PUBLIC HELPHIVE PORTAL -->
+          <a href="../portal.html"
+            class="hidden items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 sm:inline-flex dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to HelpHive</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- PAGE SECTIONS -->
+      <div class="p-4 md:p-8">
+        <!-- OVERVIEW SECTION -->
+        <section id="section-overview" class="page-section space-y-6">
+          <!-- WELCOME -->
+          <div>
+            <h2 class="text-2xl font-extrabold">
+              Welcome back, Admin <span aria-hidden="true">🐝</span>
+            </h2>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              A little snapshot of your hive.
+            </p>
+          </div>
+
+          <!-- STATISTICS CARDS -->
+          <div class="grid min-w-0 gap-4 md:grid-cols-2 xl:grid-cols-3">
+
+            <!-- TOTAL USERS CARD -->
+            <article
+              class="stat-card min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <!-- NUMBER FIRST -->
+              <h3 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                248
+              </h3>
+              <!-- PROGRESS -->
+              <p class="mt-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                12.5%
+                <span class="font-normal text-slate-500 dark:text-slate-400">vs. last month</span>
+              </p>
+              <!-- STATISTIC TITLE -->
+              <p class="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400">
+                Total Users
+              </p>
+              <!-- MINI TREND CHART -->
+              <div class="mt-5 h-12">
+                <canvas id="usersTrendChart"></canvas>
+              </div>
+            </article>
+
+            <!-- TOTAL LISTINGS CARD -->
+            <article
+              class="stat-card min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <!-- NUMBER FIRST -->
+              <h3 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                86
+              </h3>
+              <!-- PROGRESS -->
+              <p class="mt-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                8.2%
+                <span class="font-normal text-slate-500 dark:text-slate-400">vs. last month</span>
+              </p>
+              <!-- STATISTIC TITLE -->
+              <p class="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400">
+                Total Listings
+              </p>
+              <!-- MINI TREND CHART -->
+              <div class="mt-5 h-12">
+                <canvas id="listingsTrendChart"></canvas>
+              </div>
+            </article>
+
+            <!-- MONTHLY TRAFFIC CARD -->
+            <article
+              class="stat-card min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <!-- NUMBER FIRST -->
+              <h3 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+                3,420
+              </h3>
+              <!-- PROGRESS -->
+              <p class="mt-2 text-sm font-semibold text-rose-600 dark:text-rose-400">
+                <i class="fa-solid fa-arrow-down text-xs"></i>
+                3.1%
+                <span class="font-normal text-slate-500 dark:text-slate-400">vs. last month</span>
+              </p>
+              <!-- STATISTIC TITLE -->
+              <p class="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400">
+                Monthly Traffic
+              </p>
+              <!-- MINI TREND CHART -->
+              <div class="mt-5 h-12">
+                <canvas id="trafficTrendChart"></canvas>
+              </div>
+            </article>
+          </div>
+
+          <!-- ANALYTICS -->
+          <div class="grid gap-6 xl:grid-cols-5">
+
+            <!-- USER DEMOGRAPHICS -->
+            <article class="panel-card min-w-0 xl:col-span-2">
+              <div class="mb-5">
+                <h3 class="text-lg font-bold">User Demographics</h3>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  Student and property-owner accounts
+                </p>
+              </div>
+              <div class="relative mx-auto h-64 max-w-xs">
+                <canvas id="demographicsChart" role="img" aria-label="Student and property owner percentages"></canvas>
+              </div>
+              <div class="mt-5 grid grid-cols-2 gap-3">
+                <div class="rounded-xl bg-slate-50 p-3 dark:bg-slate-800">
+                  <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <span class="h-2.5 w-2.5 rounded-full bg-yellow-400"></span>
+                    Students
+                  </div>
+                  <p class="mt-1 text-xl font-bold">70%</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">174 users</p>
+                </div>
+                <div class="rounded-xl bg-slate-50 p-3 dark:bg-slate-800">
+                  <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+                    Property Owners
+                  </div>
+                  <p class="mt-1 text-xl font-bold">30%</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">74 users</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- LISTINGS OVERVIEW -->
+            <article class="panel-card min-w-0 xl:col-span-3">
+              <div class="mb-5">
+                <h3 class="text-lg font-bold">Listings Overview</h3>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  Explore how listings are distributed
+                </p>
+              </div>
+
+              <!-- CHART FILTERS -->
+              <div class="mb-5 flex flex-wrap gap-2">
+                <button type="button"
+                  class="listing-chart-filter rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white dark:bg-slate-100 dark:text-slate-900"
+                  data-chart="roomType" aria-pressed="true">
+                  Room Type
+                </button>
+                <button type="button"
+                  class="listing-chart-filter rounded-lg bg-slate-100 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                  data-chart="location" aria-pressed="false">
+                  Location
+                </button>
+                <button type="button"
+                  class="listing-chart-filter rounded-lg bg-slate-100 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                  data-chart="status" aria-pressed="false">
+                  Approval Status
+                </button>
+              </div>
+
+              <div class="relative h-80">
+                <canvas id="listingsOverviewChart" role="img" aria-label="Listings breakdown by room type"></canvas>
+              </div>
+            </article>
+          </div>
+
+          <!-- RECENT ACTIVITY SECTION -->
+          <article
+            class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <!-- SECTION HEADER -->
+            <div class="mb-5">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+                Recent Activity
+              </h3>
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                Keep track of what's happening on HelpHive.
+              </p>
+            </div>
+
+            <!-- SEARCH AND ACTIVITY FILTERS -->
+            <div class="mb-5 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+              <!-- SEARCH BAR -->
+              <div class="relative w-full xl:max-w-xs">
+                <label for="activitySearch" class="sr-only">Search activity</label>
+                <i
+                  class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400"></i>
+
+                <input id="activitySearch" type="search" placeholder="Search activities..."
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-4 text-sm text-slate-700 outline-none transition focus:border-amber-400 focus:ring-2 focus:ring-amber-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:focus:ring-amber-900" />
+              </div>
+              <!-- ACTIVITY TYPE FILTER BUTTONS -->
+              <div class="flex flex-wrap gap-2" role="group" aria-label="Filter activities by type">
+                <button type="button" class="activity-filter filter-active" data-activity-filter="all"
+                  aria-pressed="true">
+                  All
+                </button>
+                <button type="button" class="activity-filter" data-activity-filter="user" aria-pressed="false">
+                  Users
+                </button>
+                <button type="button" class="activity-filter" data-activity-filter="listing" aria-pressed="false">
+                  Listings
+                </button>
+                <button type="button" class="activity-filter" data-activity-filter="report" aria-pressed="false">
+                  Reports
+                </button>
+                <button type="button" class="activity-filter" data-activity-filter="review" aria-pressed="false">
+                  Reviews
+                </button>
+              </div>
+            </div>
+
+            <!-- ACTIVITY TABLE -->
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[560px] table-fixed text-left text-sm">
+                <colgroup>
+                  <col class="w-[48%]" />
+                  <col class="w-[30%]" />
+                  <col class="w-[22%]" />
+                </colgroup>
+                <!-- TABLE COLUMNS -->
+                <thead>
+                  <tr
+                    class="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                    <th class="px-3 py-3 font-semibold">Activity</th>
+                    <th class="px-3 py-3 font-semibold">User</th>
+                    <th class="px-3 py-3 font-semibold">Date</th>
+                  </tr>
+                </thead>
+
+                <!-- ACTIVITY ROWS -->
+                <tbody id="activityTableBody" class="divide-y divide-slate-100 dark:divide-slate-800">
+
+                  <tr class="activity-row" data-activity-type="listing">
+                    <td class="px-3 py-4 font-medium text-slate-800 dark:text-slate-200">Submitted a new listing</td>
+                    <td class="px-3 py-4 text-slate-600 dark:text-slate-400">Maria Santos</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-slate-500 dark:text-slate-400">Oct 17, 2026</td>
+                  </tr>
+
+                  <tr class="activity-row" data-activity-type="user">
+                    <td class="px-3 py-4 font-medium text-slate-800 dark:text-slate-200">Created a new account</td>
+                    <td class="px-3 py-4 text-slate-600 dark:text-slate-400">Daniel Cruz</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-slate-500 dark:text-slate-400">Oct 17, 2026</td>
+                  </tr>
+
+                  <tr class="activity-row" data-activity-type="report">
+                    <td class="px-3 py-4 font-medium text-slate-800 dark:text-slate-200">Reported a listing</td>
+                    <td class="px-3 py-4 text-slate-600 dark:text-slate-400">Alex Reyes</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-slate-500 dark:text-slate-400">Oct 16, 2026</td>
+                  </tr>
+
+                  <tr class="activity-row" data-activity-type="listing">
+                    <td class="px-3 py-4 font-medium text-slate-800 dark:text-slate-200">Updated property details</td>
+                    <td class="px-3 py-4 text-slate-600 dark:text-slate-400">Jamie Flores</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-slate-500 dark:text-slate-400">Oct 16, 2026</td>
+                  </tr>
+
+                  <tr class="activity-row" data-activity-type="review">
+                    <td class="px-3 py-4 font-medium text-slate-800 dark:text-slate-200">Approved a room listing</td>
+                    <td class="px-3 py-4 text-slate-600 dark:text-slate-400">Admin</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-slate-500 dark:text-slate-400">Oct 15, 2026</td>
+                  </tr>
+
+                  <tr class="activity-row" data-activity-type="user">
+                    <td class="px-3 py-4 font-medium text-slate-800 dark:text-slate-200">Updated account information
+                    </td>
+                    <td class="px-3 py-4 text-slate-600 dark:text-slate-400">Taylor Garcia</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-slate-500 dark:text-slate-400">Oct 15, 2026</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- SEARCH EMPTY STATE -->
+            <p id="activityEmptyState" class="hidden py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+              No matching activity found.
+            </p>
+
+            <!-- TABLE FOOTER -->
+            <div class="mt-4 flex justify-center border-t border-slate-100 pt-4 dark:border-slate-800">
+              <!-- EXPAND OR COLLAPSE ACTIVITY LIST -->
+              <button id="seeMoreActivity" type="button"
+                class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800 dark:border-slate-700 dark:text-slate-200 dark:hover:border-amber-700 dark:hover:bg-amber-900/20 dark:hover:text-amber-300"
+                aria-expanded="false">
+                See More Activities
+                <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <!-- USERS SECTION -->
+        <section id="section-users" class="page-section hidden space-y-6">
+          <div>
+            <h2 class="text-2xl font-extrabold">
+              User Management
+            </h2>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Browse student and property-owner accounts.
+            </p>
+          </div>
+          <div class="panel-card">
+            <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <label class="relative block sm:max-w-sm">
+                <span class="sr-only">
+                  Search users
+                </span>
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="userSearch" class="search-input" placeholder="Search name, email, or role…">
+              </label>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- LISTINGS SECTION -->
+        <section id="section-listings" class="page-section hidden space-y-6">
+          <div>
+            <h2 class="text-2xl font-extrabold">
+              Property Listings
+            </h2>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Review submissions and approve or reject at your discretion.
+            </p>
+          </div>
+          <div class="panel-card">
+            <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <label class="relative block sm:max-w-sm">
+                <span class="sr-only">
+                  Search listings
+                </span>
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="listingSearch" class="search-input" placeholder="Search property or owner…">
+              </label>
+              <select id="listingFilter" class="search-input sm:max-w-48" aria-label="Filter listings">
+                <option value="all">All statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Property</th>
+                    <th>Owner</th>
+                    <th>Monthly rent</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="listingsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPORTS SECTION -->
+        <section id="section-reports" class="page-section hidden space-y-6">
+          <div>
+            <h2 class="text-2xl font-extrabold">
+              Reports & Moderation
+            </h2>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              Review illustrative reports and mark them resolved in this prototype.
+            </p>
+          </div>
+
+          <div class="panel-card">
+            <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <label class="relative block sm:max-w-sm">
+                <span class="sr-only">
+                  Search reports
+                </span>
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="reportSearch" class="search-input" placeholder="Search report, reason, or reporter…">
+              </label>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Reported item</th>
+                    <th>Reason</th>
+                    <th>Reported by</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="reportsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOTER NOTE -->
+        <footer
+          class="mt-10 border-t border-slate-200 py-5 text-center text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
+          HelpHive Admin Dashboard · © 2026 HelpHive · All rights reserved.</footer>
+      </div>
+    </main>
+  </div>
+
+  <!-- TEMPORARY FEEDBACK TOAST -->
+  <div id="toast" role="status" aria-live="polite"
+    class="pointer-events-none fixed bottom-5 right-5 z-50 hidden max-w-sm rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-xl">
+  </div>
+
+  <!-- CHART.JS LIBRARY -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- DASHBOARD INTERACTIONS -->
+  <script src="../js/dashadmin.js"></script>
+
+  <!-- SMALL TAILWIND COMPONENT CLASSES (keeps the project CSS-file-free) -->
+  <style>
+    /* =========================================================
+   SIDEBAR VISIBILITY AND SMOOTH ANIMATION
+  ========================================================= */
+    #sidebar {
+      transform: translateX(0);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Hidden sidebar slides off-screen */
+    #sidebar.sidebar-closed {
+      transform: translateX(-100%);
+      pointer-events: none;
+    }
+
+    /* Smoothly adjust the main content */
+    #mainContent {
+      transition: margin-left 0.3s ease-in-out;
+    }
+
+    /* On smaller screens, start with the sidebar closed */
+    @media (max-width: 1023px) {
+      #sidebar {
+        transform: translateX(-100%);
+      }
+
+      #sidebar.sidebar-open {
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+    }
+
+    /* SIDEBAR NAVIGATION: DEFAULT */
+    .nav-link {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: .8rem;
+      border-radius: .85rem;
+      padding: .8rem .9rem;
+      text-align: left;
+      font-size: .875rem;
+      font-weight: 400;
+      color: #cbd5e1;
+      transition: background-color .15s ease, color .15s ease;
+    }
+
+    /* SIDEBAR NAVIGATION: HOVER */
+    .nav-link:hover {
+      background-color: #334155;
+      color: #f8fafc;
+    }
+
+    /* SIDEBAR NAVIGATION: ACTIVE */
+    .nav-active {
+      background-color: #475569;
+      color: #ffffff;
+    }
+
+    /* ACTIVE NAVIGATION: EMPHASIZE THE SELECTED SECTION */
+    .nav-link.nav-active {
+      font-weight: 600;
+    }
+
+    /* DARK MODE: DEFAULT STATE */
+    .dark .nav-link {
+      color: #cbd5e1;
+    }
+
+    /* DARK MODE: HOVER STATE */
+    .dark .nav-link:hover {
+      background-color: #334155;
+      color: #f8fafc;
+    }
+
+    /* DARK MODE: ACTIVE STATE */
+    .dark .nav-active {
+      background-color: #475569;
+      color: #ffffff;
+    }
+
+    .stat-card,
+    .panel-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 1.15rem;
+      background: #fff;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgb(15 23 42 / .025);
+    }
+
+    .dark .stat-card,
+    .dark .panel-card {
+      border-color: #334155;
+      background: #0f172a;
+    }
+
+    .stat-icon {
+      display: flex;
+      height: 2.75rem;
+      width: 2.75rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1rem;
+    }
+
+    .quick-action {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: .85rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      padding: .9rem;
+      transition: border-color .15s, background .15s;
+    }
+
+    .quick-action:hover {
+      border-color: #f2cf65;
+      background: #fffdf6;
+    }
+
+    .dark .quick-action {
+      border-color: #334155;
+    }
+
+    .dark .quick-action:hover {
+      background: #172033;
+    }
+
+    .quick-icon,
+    .activity-dot {
+      display: flex;
+      height: 2.6rem;
+      width: 2.6rem;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      border-radius: .85rem;
+    }
+
+    .search-input {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: .8rem;
+      background: white;
+      padding: .7rem .85rem .7rem 2.35rem;
+      font: inherit;
+      font-size: .8rem;
+      color: #1e293b;
+      outline: none;
+    }
+
+    select.search-input {
+      padding-left: .85rem;
+    }
+
+    .search-input:focus {
+      border-color: #d89a00;
+      box-shadow: 0 0 0 3px rgb(216 154 0 / .14);
+    }
+
+    .dark .search-input {
+      border-color: #475569;
+      background: #1e293b;
+      color: #f1f5f9;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: .8rem;
+    }
+
+    .data-table th {
+      white-space: nowrap;
+      border-bottom: 1px solid #e2e8f0;
+      padding: .8rem;
+      color: #64748b;
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .data-table td {
+      border-bottom: 1px solid #f1f5f9;
+      padding: .95rem .8rem;
+      vertical-align: middle;
+    }
+
+    .dark .data-table th {
+      border-color: #334155;
+      color: #94a3b8;
+    }
+
+    .dark .data-table td {
+      border-color: #1e293b;
+    }
+
+    .table-action {
+      margin: .15rem .25rem .15rem 0;
+      border-radius: .55rem;
+      padding: .4rem .6rem;
+      font-size: .7rem;
+      font-weight: 700;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: .3rem .6rem;
+      font-size: .68rem;
+      font-weight: 700;
+    }
+
+    @media (min-width:1024px) {
+      #sidebar {
+        display: flex;
+      }
+    }
+
+    /* RECENT ACTIVITY FILTER BUTTONS */
+    .activity-filter {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #475569;
+      background: transparent;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .activity-filter:hover {
+      background-color: #f1f5f9;
+    }
+
+    .activity-filter.filter-active {
+      border-color: #f59e0b;
+      background-color: #fef3c7;
+      color: #92400e;
+      font-weight: 700;
+    }
+
+    .dark .activity-filter {
+      border-color: #334155;
+      color: #cbd5e1;
+    }
+
+    .dark .activity-filter:hover {
+      background-color: #1e293b;
+    }
+
+    .dark .activity-filter.filter-active {
+      border-color: #92400e;
+      background-color: #78350f;
+      color: #fef3c7;
+    }
+  </style>
+</body>
+
+</html>
